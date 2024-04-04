@@ -1,8 +1,6 @@
-<div style="width: 50%; margin: 0 auto;">
-  <img src="docs/images/accipit.jpg">
-</div>
+## Head
+This is used for our compilor project, and welcome to talk.
 
-Accipit IR is a target independent IR for ZJU compiler course. 
 
 ## Build
 ```bash
