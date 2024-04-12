@@ -1,9 +1,3 @@
-Nonterminals useless in grammar
-
-    Btype
-    FuncType
-
-
 Terminals unused in grammar
 
     comment

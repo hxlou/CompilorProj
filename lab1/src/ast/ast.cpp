@@ -83,11 +83,11 @@ void print_tree(Node* node, std::string prefix) {
         print_tree(whil->stmt, prefix + "    ");
     }
 
-    if (auto *bre = node->as<TreeBreakStmt*>()) {
+    if ([[maybe_unused]]auto *bre = node->as<TreeBreakStmt*>()) {
         fmt::print("Break\n");
     }
 
-    if (auto *conti = node->as<TreeContinueStmt*>()) {
+    if ([[maybe_unused]]auto *conti = node->as<TreeContinueStmt*>()) {
         fmt::print("Continue\n");
     }
 

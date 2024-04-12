@@ -53,7 +53,7 @@ extern NodePtr root;
 
 
 %type <ident>       Ident 
-%type <type>        Btype FuncType
+/* %type <type>        Btype FuncType */
 %type <comp>        CompUnit    
 %type <varDef>      VarDef
 %type <integer>     Number
