@@ -1,5 +1,5 @@
 CMakeFiles/compiler.dir/sysy.tab.cc.o: \
- /home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc \
+ /home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc \
  /usr/include/stdc-predef.h /usr/include/stdio.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -24,7 +24,7 @@ CMakeFiles/compiler.dir/sysy.tab.cc.o: \
  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
  /usr/include/x86_64-linux-gnu/bits/floatn.h \
  /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
- /home/lll/MyC/accipit-main/lab1/include/ast/ast.h \
+ /home/lll/MyC/accipit-main/lab2/include/ast/ast.h \
  /usr/include/c++/11/cstdint \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
@@ -132,8 +132,8 @@ CMakeFiles/compiler.dir/sysy.tab.cc.o: \
  /usr/include/c++/11/bits/stl_vector.h \
  /usr/include/c++/11/bits/stl_bvector.h \
  /usr/include/c++/11/bits/vector.tcc \
- /home/lll/MyC/accipit-main/lab1/include/common/common.def \
- /home/lll/MyC/accipit-main/lab1/third_party/fmt/include/fmt/core.h \
+ /home/lll/MyC/accipit-main/lab2/include/common/common.def \
+ /home/lll/MyC/accipit-main/lab2/third_party/fmt/include/fmt/core.h \
  /usr/include/c++/11/cstddef /usr/include/c++/11/cstring \
  /usr/include/string.h /usr/include/strings.h \
  /usr/include/c++/11/iterator /usr/include/c++/11/bits/stream_iterator.h \
@@ -167,7 +167,7 @@ CMakeFiles/compiler.dir/sysy.tab.cc.o: \
  /usr/include/c++/11/backward/auto_ptr.h \
  /usr/include/c++/11/pstl/glue_memory_defs.h \
  /usr/include/c++/11/pstl/execution_defs.h \
- /home/lll/MyC/accipit-main/lab1/third_party/fmt/include/fmt/format.h \
+ /home/lll/MyC/accipit-main/lab2/third_party/fmt/include/fmt/format.h \
  /usr/include/c++/11/cmath /usr/include/math.h \
  /usr/include/x86_64-linux-gnu/bits/math-vector.h \
  /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
@@ -190,8 +190,8 @@ CMakeFiles/compiler.dir/sysy.tab.cc.o: \
  /usr/include/c++/11/tr1/poly_hermite.tcc \
  /usr/include/c++/11/tr1/poly_laguerre.tcc \
  /usr/include/c++/11/tr1/riemann_zeta.tcc \
- /home/lll/MyC/accipit-main/lab1/third_party/fmt/include/fmt/core.h \
- /home/lll/MyC/accipit-main/lab1/third_party/fmt/include/fmt/format-inl.h \
+ /home/lll/MyC/accipit-main/lab2/third_party/fmt/include/fmt/core.h \
+ /home/lll/MyC/accipit-main/lab2/third_party/fmt/include/fmt/format-inl.h \
  /usr/include/c++/11/algorithm /usr/include/c++/11/bits/stl_algo.h \
  /usr/include/c++/11/bits/algorithmfwd.h \
  /usr/include/c++/11/bits/stl_heap.h \
@@ -223,4 +223,4 @@ CMakeFiles/compiler.dir/sysy.tab.cc.o: \
  /usr/include/libintl.h /usr/include/c++/11/bits/codecvt.h \
  /usr/include/c++/11/bits/locale_facets_nonio.tcc \
  /usr/include/c++/11/bits/locale_conv.h \
- /home/lll/MyC/accipit-main/lab1/build/sysy.tab.hh
+ /home/lll/MyC/accipit-main/lab2/build/sysy.tab.hh

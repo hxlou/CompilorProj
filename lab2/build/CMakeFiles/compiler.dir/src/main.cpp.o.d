@@ -1,6 +1,6 @@
 CMakeFiles/compiler.dir/src/main.cpp.o: \
- /home/lll/MyC/accipit-main/lab1/src/main.cpp /usr/include/stdc-predef.h \
- /home/lll/MyC/accipit-main/lab1/include/ast/ast.h \
+ /home/lll/MyC/accipit-main/lab2/src/main.cpp /usr/include/stdc-predef.h \
+ /home/lll/MyC/accipit-main/lab2/include/ast/ast.h \
  /usr/include/c++/11/cstdint \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
@@ -131,8 +131,8 @@ CMakeFiles/compiler.dir/src/main.cpp.o: \
  /usr/include/c++/11/bits/stl_vector.h \
  /usr/include/c++/11/bits/stl_bvector.h \
  /usr/include/c++/11/bits/vector.tcc \
- /home/lll/MyC/accipit-main/lab1/include/common/common.def \
- /home/lll/MyC/accipit-main/lab1/third_party/fmt/include/fmt/core.h \
+ /home/lll/MyC/accipit-main/lab2/include/common/common.def \
+ /home/lll/MyC/accipit-main/lab2/third_party/fmt/include/fmt/core.h \
  /usr/include/c++/11/cstddef /usr/include/c++/11/cstring \
  /usr/include/string.h /usr/include/strings.h \
  /usr/include/c++/11/iterator /usr/include/c++/11/bits/stream_iterator.h \
@@ -166,7 +166,7 @@ CMakeFiles/compiler.dir/src/main.cpp.o: \
  /usr/include/c++/11/backward/auto_ptr.h \
  /usr/include/c++/11/pstl/glue_memory_defs.h \
  /usr/include/c++/11/pstl/execution_defs.h \
- /home/lll/MyC/accipit-main/lab1/third_party/fmt/include/fmt/format.h \
+ /home/lll/MyC/accipit-main/lab2/third_party/fmt/include/fmt/format.h \
  /usr/include/c++/11/cmath /usr/include/math.h \
  /usr/include/x86_64-linux-gnu/bits/math-vector.h \
  /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
@@ -189,8 +189,8 @@ CMakeFiles/compiler.dir/src/main.cpp.o: \
  /usr/include/c++/11/tr1/poly_hermite.tcc \
  /usr/include/c++/11/tr1/poly_laguerre.tcc \
  /usr/include/c++/11/tr1/riemann_zeta.tcc \
- /home/lll/MyC/accipit-main/lab1/third_party/fmt/include/fmt/core.h \
- /home/lll/MyC/accipit-main/lab1/third_party/fmt/include/fmt/format-inl.h \
+ /home/lll/MyC/accipit-main/lab2/third_party/fmt/include/fmt/core.h \
+ /home/lll/MyC/accipit-main/lab2/third_party/fmt/include/fmt/format-inl.h \
  /usr/include/c++/11/algorithm /usr/include/c++/11/bits/stl_algo.h \
  /usr/include/c++/11/bits/algorithmfwd.h \
  /usr/include/c++/11/bits/stl_heap.h \

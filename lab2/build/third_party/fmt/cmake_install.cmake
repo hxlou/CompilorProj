@@ -1,4 +1,4 @@
-# Install script for directory: /home/lll/MyC/accipit-main/lab1/third_party/fmt
+# Install script for directory: /home/lll/MyC/accipit-main/lab2/third_party/fmt
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -43,31 +43,31 @@ if(NOT DEFINED CMAKE_OBJDUMP)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "/home/lll/MyC/accipit-main/lab1/build/third_party/fmt/libfmt.a")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "/home/lll/MyC/accipit-main/lab2/build/third_party/fmt/libfmt.a")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/fmt" TYPE FILE FILES
-    "/home/lll/MyC/accipit-main/lab1/third_party/fmt/include/fmt/args.h"
-    "/home/lll/MyC/accipit-main/lab1/third_party/fmt/include/fmt/chrono.h"
-    "/home/lll/MyC/accipit-main/lab1/third_party/fmt/include/fmt/color.h"
-    "/home/lll/MyC/accipit-main/lab1/third_party/fmt/include/fmt/compile.h"
-    "/home/lll/MyC/accipit-main/lab1/third_party/fmt/include/fmt/core.h"
-    "/home/lll/MyC/accipit-main/lab1/third_party/fmt/include/fmt/format.h"
-    "/home/lll/MyC/accipit-main/lab1/third_party/fmt/include/fmt/format-inl.h"
-    "/home/lll/MyC/accipit-main/lab1/third_party/fmt/include/fmt/os.h"
-    "/home/lll/MyC/accipit-main/lab1/third_party/fmt/include/fmt/ostream.h"
-    "/home/lll/MyC/accipit-main/lab1/third_party/fmt/include/fmt/printf.h"
-    "/home/lll/MyC/accipit-main/lab1/third_party/fmt/include/fmt/ranges.h"
-    "/home/lll/MyC/accipit-main/lab1/third_party/fmt/include/fmt/std.h"
-    "/home/lll/MyC/accipit-main/lab1/third_party/fmt/include/fmt/xchar.h"
+    "/home/lll/MyC/accipit-main/lab2/third_party/fmt/include/fmt/args.h"
+    "/home/lll/MyC/accipit-main/lab2/third_party/fmt/include/fmt/chrono.h"
+    "/home/lll/MyC/accipit-main/lab2/third_party/fmt/include/fmt/color.h"
+    "/home/lll/MyC/accipit-main/lab2/third_party/fmt/include/fmt/compile.h"
+    "/home/lll/MyC/accipit-main/lab2/third_party/fmt/include/fmt/core.h"
+    "/home/lll/MyC/accipit-main/lab2/third_party/fmt/include/fmt/format.h"
+    "/home/lll/MyC/accipit-main/lab2/third_party/fmt/include/fmt/format-inl.h"
+    "/home/lll/MyC/accipit-main/lab2/third_party/fmt/include/fmt/os.h"
+    "/home/lll/MyC/accipit-main/lab2/third_party/fmt/include/fmt/ostream.h"
+    "/home/lll/MyC/accipit-main/lab2/third_party/fmt/include/fmt/printf.h"
+    "/home/lll/MyC/accipit-main/lab2/third_party/fmt/include/fmt/ranges.h"
+    "/home/lll/MyC/accipit-main/lab2/third_party/fmt/include/fmt/std.h"
+    "/home/lll/MyC/accipit-main/lab2/third_party/fmt/include/fmt/xchar.h"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/fmt" TYPE FILE FILES
-    "/home/lll/MyC/accipit-main/lab1/build/third_party/fmt/fmt-config.cmake"
-    "/home/lll/MyC/accipit-main/lab1/build/third_party/fmt/fmt-config-version.cmake"
+    "/home/lll/MyC/accipit-main/lab2/build/third_party/fmt/fmt-config.cmake"
+    "/home/lll/MyC/accipit-main/lab2/build/third_party/fmt/fmt-config-version.cmake"
     )
 endif()
 
@@ -75,7 +75,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/cmake/fmt/fmt-targets.cmake")
     file(DIFFERENT EXPORT_FILE_CHANGED FILES
          "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/cmake/fmt/fmt-targets.cmake"
-         "/home/lll/MyC/accipit-main/lab1/build/third_party/fmt/CMakeFiles/Export/lib/cmake/fmt/fmt-targets.cmake")
+         "/home/lll/MyC/accipit-main/lab2/build/third_party/fmt/CMakeFiles/Export/lib/cmake/fmt/fmt-targets.cmake")
     if(EXPORT_FILE_CHANGED)
       file(GLOB OLD_CONFIG_FILES "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/cmake/fmt/fmt-targets-*.cmake")
       if(OLD_CONFIG_FILES)
@@ -84,13 +84,13 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
       endif()
     endif()
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/fmt" TYPE FILE FILES "/home/lll/MyC/accipit-main/lab1/build/third_party/fmt/CMakeFiles/Export/lib/cmake/fmt/fmt-targets.cmake")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/fmt" TYPE FILE FILES "/home/lll/MyC/accipit-main/lab2/build/third_party/fmt/CMakeFiles/Export/lib/cmake/fmt/fmt-targets.cmake")
   if("${CMAKE_INSTALL_CONFIG_NAME}" MATCHES "^()$")
-    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/fmt" TYPE FILE FILES "/home/lll/MyC/accipit-main/lab1/build/third_party/fmt/CMakeFiles/Export/lib/cmake/fmt/fmt-targets-noconfig.cmake")
+    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/fmt" TYPE FILE FILES "/home/lll/MyC/accipit-main/lab2/build/third_party/fmt/CMakeFiles/Export/lib/cmake/fmt/fmt-targets-noconfig.cmake")
   endif()
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/lll/MyC/accipit-main/lab1/build/third_party/fmt/fmt.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/lll/MyC/accipit-main/lab2/build/third_party/fmt/fmt.pc")
 endif()
 

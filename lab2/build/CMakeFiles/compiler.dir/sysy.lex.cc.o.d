@@ -1,5 +1,5 @@
 CMakeFiles/compiler.dir/sysy.lex.cc.o: \
- /home/lll/MyC/accipit-main/lab1/build/sysy.lex.cc \
+ /home/lll/MyC/accipit-main/lab2/build/sysy.lex.cc \
  /usr/include/stdc-predef.h /usr/include/stdio.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -62,7 +62,7 @@ CMakeFiles/compiler.dir/sysy.lex.cc.o: \
  /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h /usr/include/alloca.h \
  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
  /usr/include/c++/11/bits/std_abs.h \
- /home/lll/MyC/accipit-main/lab1/include/ast/ast.h \
+ /home/lll/MyC/accipit-main/lab2/include/ast/ast.h \
  /usr/include/c++/11/cstdint \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/wchar.h \
@@ -133,9 +133,9 @@ CMakeFiles/compiler.dir/sysy.lex.cc.o: \
  /usr/include/c++/11/bits/stl_vector.h \
  /usr/include/c++/11/bits/stl_bvector.h \
  /usr/include/c++/11/bits/vector.tcc \
- /home/lll/MyC/accipit-main/lab1/include/common/common.def \
- /home/lll/MyC/accipit-main/lab1/build/sysy.tab.hh \
- /home/lll/MyC/accipit-main/lab1/third_party/fmt/include/fmt/core.h \
+ /home/lll/MyC/accipit-main/lab2/include/common/common.def \
+ /home/lll/MyC/accipit-main/lab2/build/sysy.tab.hh \
+ /home/lll/MyC/accipit-main/lab2/third_party/fmt/include/fmt/core.h \
  /usr/include/c++/11/cstddef /usr/include/c++/11/cstring \
  /usr/include/c++/11/iterator /usr/include/c++/11/bits/stream_iterator.h \
  /usr/include/c++/11/bits/streambuf_iterator.h \
@@ -168,7 +168,7 @@ CMakeFiles/compiler.dir/sysy.lex.cc.o: \
  /usr/include/c++/11/backward/auto_ptr.h \
  /usr/include/c++/11/pstl/glue_memory_defs.h \
  /usr/include/c++/11/pstl/execution_defs.h \
- /home/lll/MyC/accipit-main/lab1/third_party/fmt/include/fmt/format.h \
+ /home/lll/MyC/accipit-main/lab2/third_party/fmt/include/fmt/format.h \
  /usr/include/c++/11/cmath /usr/include/math.h \
  /usr/include/x86_64-linux-gnu/bits/math-vector.h \
  /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
@@ -191,8 +191,8 @@ CMakeFiles/compiler.dir/sysy.lex.cc.o: \
  /usr/include/c++/11/tr1/poly_hermite.tcc \
  /usr/include/c++/11/tr1/poly_laguerre.tcc \
  /usr/include/c++/11/tr1/riemann_zeta.tcc \
- /home/lll/MyC/accipit-main/lab1/third_party/fmt/include/fmt/core.h \
- /home/lll/MyC/accipit-main/lab1/third_party/fmt/include/fmt/format-inl.h \
+ /home/lll/MyC/accipit-main/lab2/third_party/fmt/include/fmt/core.h \
+ /home/lll/MyC/accipit-main/lab2/third_party/fmt/include/fmt/format-inl.h \
  /usr/include/c++/11/algorithm /usr/include/c++/11/bits/stl_algo.h \
  /usr/include/c++/11/bits/algorithmfwd.h \
  /usr/include/c++/11/bits/stl_heap.h \

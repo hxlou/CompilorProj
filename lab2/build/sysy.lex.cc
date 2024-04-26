@@ -1,6 +1,6 @@
-#line 2 "/home/lll/MyC/accipit-main/lab1/build/sysy.lex.cc"
+#line 2 "/home/lll/MyC/accipit-main/lab2/build/sysy.lex.cc"
 
-#line 4 "/home/lll/MyC/accipit-main/lab1/build/sysy.lex.cc"
+#line 4 "/home/lll/MyC/accipit-main/lab2/build/sysy.lex.cc"
 
 #define  YY_INT_ALIGNED short int
 
@@ -498,17 +498,17 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 1 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 #define YY_NO_INPUT 1
 /* defination */
-#line 7 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 7 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
     #include <ast/ast.h>
     #include "sysy.tab.hh"
     #include <fmt/core.h>
-#line 509 "/home/lll/MyC/accipit-main/lab1/build/sysy.lex.cc"
+#line 509 "/home/lll/MyC/accipit-main/lab2/build/sysy.lex.cc"
 
 /* NUM */
-#line 512 "/home/lll/MyC/accipit-main/lab1/build/sysy.lex.cc"
+#line 512 "/home/lll/MyC/accipit-main/lab2/build/sysy.lex.cc"
 
 #define INITIAL 0
 #define COMMENT_STATE 1
@@ -724,9 +724,9 @@ YY_DECL
 		}
 
 	{
-#line 56 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 56 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 
-#line 730 "/home/lll/MyC/accipit-main/lab1/build/sysy.lex.cc"
+#line 730 "/home/lll/MyC/accipit-main/lab2/build/sysy.lex.cc"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -785,207 +785,207 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 57 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 57 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 {return ASSIGNOP;}     
 	YY_BREAK
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 58 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 58 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 {}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 59 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 59 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 {return LT;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 60 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 60 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 {return LE;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 61 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 61 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 {return GT;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 62 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 62 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 {return GE;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 63 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 63 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 {return EQ;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 64 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 64 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 {return NE;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 65 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 65 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 {yylval.type = new TreeType(1); return INT;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 66 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 66 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 {yylval.type = new TreeType(0); return VOID;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 67 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 67 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 {return ADD;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 68 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 68 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 {return SUB;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 69 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 69 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 {return MUL;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 70 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 70 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 {return DIV;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 71 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 71 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 {return MOD;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 72 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 72 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 {return AND;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 73 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 73 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 {return NOT;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 74 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 74 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 {return OR;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 75 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 75 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 {return LP;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 76 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 76 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 {return RP;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 77 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 77 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 {return LB;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 78 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 78 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 {return RB;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 79 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 79 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 {return LC;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 80 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 80 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 {return RC;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 81 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 81 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 {return SEMI;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 82 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 82 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 {return COMMA;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 83 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 83 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 {return IF;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 84 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 84 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 {return ELSE;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 85 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 85 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 {return WHILE;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 86 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 86 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 {return BREAK;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 87 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 87 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 {return CONTINUE;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 88 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 88 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 {return RETURN;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 89 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 89 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 {yylval.integer = new TreeIntegerLiteral(atoi(yytext)); return NUM;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 90 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 90 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 {yylval.ident = new TreeIdent(yytext); return IDENT;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 92 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 92 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 { /* ignore */ }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 93 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 93 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 { BEGIN(COMMENT_STATE); }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 94 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 94 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 { BEGIN(INITIAL); }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 95 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 95 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 { /* Ignore */ }
 	YY_BREAK
 case 39:
 /* rule 39 can match eol */
 YY_RULE_SETUP
-#line 96 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 96 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 { /* Ignore */ }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 97 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 97 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 ECHO;
 	YY_BREAK
-#line 989 "/home/lll/MyC/accipit-main/lab1/build/sysy.lex.cc"
+#line 989 "/home/lll/MyC/accipit-main/lab2/build/sysy.lex.cc"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(COMMENT_STATE):
 	yyterminate();
@@ -1954,7 +1954,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 97 "/home/lll/MyC/accipit-main/lab1/src/sysy.l"
+#line 97 "/home/lll/MyC/accipit-main/lab2/src/sysy.l"
 
 
 /* user code */

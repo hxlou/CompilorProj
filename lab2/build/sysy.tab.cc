@@ -67,7 +67,7 @@
 
 
 /* First part of user prologue.  */
-#line 1 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 1 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
 
 #include <stdio.h>
 #include <ast/ast.h>
@@ -77,7 +77,7 @@ void yyerror(const char *s);
 extern int yylex(void);
 extern NodePtr root;
 
-#line 81 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 81 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -1228,473 +1228,473 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* CompUnit: CompUnit CompUnit_  */
-#line 81 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 81 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             { (yyval.comp) = (yyvsp[-1].comp); (yyval.comp)->child->push_back((yyvsp[0].stmt)); root = (yyval.comp);}
-#line 1234 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1234 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 3: /* CompUnit: CompUnit_  */
-#line 82 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 82 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             { auto *tmp = new std::vector<TreeStmt*>();
                                                 tmp->push_back((yyvsp[0].stmt));
                                               (yyval.comp) = new CompUnit(tmp);
                                                 root = (yyval.comp);
                                             }
-#line 1244 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1244 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 4: /* CompUnit_: Decl  */
-#line 89 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 89 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             { (yyval.stmt) = (yyvsp[0].stmt);}
-#line 1250 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1250 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 5: /* CompUnit_: FuncDef  */
-#line 90 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 90 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             { (yyval.stmt) = (yyvsp[0].stmt);}
-#line 1256 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1256 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 6: /* Ident: IDENT  */
-#line 104 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 104 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             { (yyval.ident) = yyval.ident;}
-#line 1262 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1262 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 7: /* Number: NUM  */
-#line 108 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 108 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             { (yyval.integer) = yyval.integer; }
-#line 1268 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1268 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 8: /* Decl: VarDecl  */
-#line 112 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 112 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             { (yyval.stmt) = (yyvsp[0].varDecl);}
-#line 1274 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1274 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 9: /* VarDecl: INT VarDef VarDef_ SEMI  */
-#line 116 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 116 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                           {     auto *tmp = new std::vector<TreeVarDef*>();
                                                 tmp->push_back((yyvsp[-2].varDef));
                                                 (yyval.varDecl) = new TreeVarDecl(new TreeType(1), tmp);
                                                 for (auto& def : *(yyvsp[-1].vecTreeVarDef)) (yyval.varDecl)->varDef->push_back(def);
                                             }
-#line 1284 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1284 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 10: /* VarDef_: %empty  */
-#line 123 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 123 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.vecTreeVarDef) = new std::vector<TreeVarDef*>();}
-#line 1290 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1290 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 11: /* VarDef_: VarDef_ COMMA VarDef  */
-#line 124 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 124 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyvsp[-2].vecTreeVarDef)->push_back((yyvsp[0].varDef)); (yyval.vecTreeVarDef) = (yyvsp[-2].vecTreeVarDef);}
-#line 1296 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1296 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 12: /* VarDef: Ident ASSIGNOP InitVal  */
-#line 129 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 129 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.varDef) = new TreeVarDef((yyvsp[-2].ident), false, nullptr, (yyvsp[0].expr));}
-#line 1302 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1302 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 13: /* VarDef: Ident ArryList  */
-#line 130 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 130 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.varDef) = new TreeVarDef((yyvsp[-1].ident), true, (yyvsp[0].vecTreeInt), nullptr);}
-#line 1308 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1308 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 14: /* ArryList: %empty  */
-#line 135 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 135 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.vecTreeInt) = new std::vector<TreeIntegerLiteral*>();}
-#line 1314 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1314 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 15: /* ArryList: ArryList LB Number RB  */
-#line 136 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 136 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyvsp[-3].vecTreeInt)->push_back((yyvsp[-1].integer)); (yyval.vecTreeInt) = (yyvsp[-3].vecTreeInt);}
-#line 1320 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1320 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 16: /* InitVal: Exp  */
-#line 139 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 139 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.expr) = (yyvsp[0].expr);}
-#line 1326 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1326 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 17: /* FuncDef: INT Ident LP FuncParams RP Block  */
-#line 146 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 146 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             { (yyval.stmt) = new TreeFuncDef(new TreeType(1), (yyvsp[-4].ident), (yyvsp[-2].funcPs), (yyvsp[0].stmt));}
-#line 1332 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1332 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 18: /* FuncDef: INT Ident LP RP Block  */
-#line 147 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 147 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             { (yyval.stmt) = new TreeFuncDef(new TreeType(1), (yyvsp[-3].ident), nullptr, (yyvsp[0].stmt));}
-#line 1338 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1338 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 19: /* FuncDef: VOID Ident LP FuncParams RP Block  */
-#line 149 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 149 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             { (yyval.stmt) = new TreeFuncDef(new TreeType(0), (yyvsp[-4].ident), (yyvsp[-2].funcPs), (yyvsp[0].stmt));}
-#line 1344 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1344 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 20: /* FuncDef: VOID Ident LP RP Block  */
-#line 150 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 150 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             { (yyval.stmt) = new TreeFuncDef(new TreeType(0), (yyvsp[-3].ident), nullptr, (yyvsp[0].stmt));}
-#line 1350 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1350 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 21: /* FuncParams: FuncParam FuncParam_  */
-#line 154 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 154 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             { auto *tmp = new std::vector<TreeFuncParam*> ();
                                               tmp->push_back((yyvsp[-1].funcP));
                                               (yyval.funcPs) = new TreeFuncParams(tmp);
                                               for (auto& param : *(yyvsp[0].vecFuncParam)) (yyval.funcPs)->child->push_back(param);
                                             }
-#line 1360 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1360 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 22: /* FuncParam: INT Ident  */
-#line 161 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 161 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                           { (yyval.funcP) = new TreeFuncParam(new TreeType(1), (yyvsp[0].ident), false, nullptr);}
-#line 1366 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1366 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 23: /* FuncParam: INT Ident LB RB ArryList  */
-#line 162 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 162 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                           { (yyval.funcP) = new TreeFuncParam(new TreeType(1), (yyvsp[-3].ident), true, (yyvsp[0].vecTreeInt));}
-#line 1372 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1372 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 24: /* FuncParam_: %empty  */
-#line 165 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 165 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             { (yyval.vecFuncParam) = new std::vector<TreeFuncParam*>();}
-#line 1378 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1378 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 25: /* FuncParam_: FuncParam_ COMMA FuncParam  */
-#line 166 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 166 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             { (yyval.vecFuncParam) = (yyvsp[-2].vecFuncParam); (yyval.vecFuncParam)->push_back((yyvsp[0].funcP));}
-#line 1384 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1384 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 26: /* Block: LC BlockItems RC  */
-#line 170 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 170 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.stmt) = new TreeBlock((yyvsp[-1].vecStmt));}
-#line 1390 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1390 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 27: /* BlockItems: %empty  */
-#line 174 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 174 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.vecStmt) = new std::vector<TreeStmt*>();}
-#line 1396 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1396 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 28: /* BlockItems: BlockItems BlockItem  */
-#line 175 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 175 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.vecStmt) = (yyvsp[-1].vecStmt); (yyvsp[-1].vecStmt)->push_back((yyvsp[0].stmt));}
-#line 1402 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1402 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 29: /* BlockItem: Decl  */
-#line 179 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 179 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.stmt) = (yyvsp[0].stmt);}
-#line 1408 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1408 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 30: /* BlockItem: Stmt  */
-#line 180 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 180 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.stmt) = (yyvsp[0].stmt);}
-#line 1414 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1414 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 31: /* Stmt: LVal ASSIGNOP Exp SEMI  */
-#line 184 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 184 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.stmt) = new TreeLvalEqStmt((yyvsp[-3].lVal), (yyvsp[-1].expr));}
-#line 1420 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1420 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 32: /* Stmt: Exp SEMI  */
-#line 185 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 185 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.stmt) = (yyvsp[-1].expr);}
-#line 1426 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1426 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 33: /* Stmt: Block  */
-#line 186 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 186 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.stmt) = (yyvsp[0].stmt);}
-#line 1432 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1432 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 34: /* Stmt: IFStmt  */
-#line 187 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 187 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.stmt) = (yyvsp[0].stmt);}
-#line 1438 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1438 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 35: /* Stmt: WHILE LP Exp RP Stmt  */
-#line 188 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 188 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.stmt) = new TreeWhileStmt((yyvsp[-2].expr), (yyvsp[0].stmt));}
-#line 1444 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1444 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 36: /* Stmt: BREAK SEMI  */
-#line 189 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 189 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.stmt) = new TreeBreakStmt();}
-#line 1450 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1450 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 37: /* Stmt: CONTINUE SEMI  */
-#line 190 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 190 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.stmt) = new TreeContinueStmt();}
-#line 1456 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1456 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 38: /* Stmt: RETURN Exp SEMI  */
-#line 191 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 191 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.stmt) = new TreeReturnStmt((yyvsp[-1].expr));}
-#line 1462 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1462 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 39: /* Stmt: RETURN SEMI  */
-#line 192 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 192 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.stmt) = new TreeReturnStmt(nullptr);}
-#line 1468 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1468 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 40: /* IFStmt: IF LP Exp RP Stmt  */
-#line 196 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 196 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.stmt) = new TreeIfStmt((yyvsp[-2].expr), (yyvsp[0].stmt), nullptr, false);}
-#line 1474 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1474 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 41: /* IFStmt: IF LP Exp RP Stmt ELSE Stmt  */
-#line 197 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 197 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.stmt) = new TreeIfStmt((yyvsp[-4].expr), (yyvsp[-2].stmt), (yyvsp[0].stmt), true);}
-#line 1480 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1480 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 42: /* Exp: LOrExp  */
-#line 201 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 201 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.expr) = (yyvsp[0].expr);}
-#line 1486 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1486 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 43: /* LOrExp: LAndExp  */
-#line 205 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 205 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.expr) = (yyvsp[0].expr);}
-#line 1492 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1492 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 44: /* LOrExp: LOrExp OR LAndExp  */
-#line 206 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 206 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.expr) = new TreeBinaryExpr(OpType::OP_Lor, (yyvsp[-2].expr), (yyvsp[0].expr));}
-#line 1498 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1498 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 45: /* LAndExp: EqExp  */
-#line 210 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 210 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.expr) = (yyvsp[0].expr);}
-#line 1504 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1504 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 46: /* LAndExp: LAndExp AND EqExp  */
-#line 211 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 211 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.expr) = new TreeBinaryExpr(OpType::OP_Land, (yyvsp[-2].expr), (yyvsp[0].expr));}
-#line 1510 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1510 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 47: /* EqExp: RelExp  */
-#line 215 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 215 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.expr) = (yyvsp[0].expr);}
-#line 1516 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1516 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 48: /* EqExp: EqExp EQ RelExp  */
-#line 216 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 216 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.expr) = new TreeBinaryExpr(OpType::OP_Eq, (yyvsp[-2].expr), (yyvsp[0].expr));}
-#line 1522 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1522 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 49: /* EqExp: EqExp NE RelExp  */
-#line 217 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 217 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.expr) = new TreeBinaryExpr(OpType::OP_Ne, (yyvsp[-2].expr), (yyvsp[0].expr));}
-#line 1528 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1528 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 50: /* RelExp: AddExp  */
-#line 221 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 221 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.expr) = (yyvsp[0].expr);}
-#line 1534 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1534 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 51: /* RelExp: RelExp LT AddExp  */
-#line 222 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 222 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.expr) = new TreeBinaryExpr(OpType::OP_Lt, (yyvsp[-2].expr), (yyvsp[0].expr));}
-#line 1540 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1540 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 52: /* RelExp: RelExp LE AddExp  */
-#line 223 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 223 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.expr) = new TreeBinaryExpr(OpType::OP_Le, (yyvsp[-2].expr), (yyvsp[0].expr));}
-#line 1546 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1546 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 53: /* RelExp: RelExp GT AddExp  */
-#line 224 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 224 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.expr) = new TreeBinaryExpr(OpType::OP_Gt, (yyvsp[-2].expr), (yyvsp[0].expr));}
-#line 1552 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1552 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 54: /* RelExp: RelExp GE AddExp  */
-#line 225 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 225 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.expr) = new TreeBinaryExpr(OpType::OP_Ge, (yyvsp[-2].expr), (yyvsp[0].expr));}
-#line 1558 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1558 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 55: /* AddExp: MulExp  */
-#line 229 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 229 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.expr) = (yyvsp[0].expr);}
-#line 1564 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1564 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 56: /* AddExp: AddExp ADD MulExp  */
-#line 230 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 230 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.expr) = new TreeBinaryExpr(OpType::OP_Add, (yyvsp[-2].expr), (yyvsp[0].expr));}
-#line 1570 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1570 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 57: /* AddExp: AddExp SUB MulExp  */
-#line 231 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 231 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.expr) = new TreeBinaryExpr(OpType::OP_Sub, (yyvsp[-2].expr), (yyvsp[0].expr));}
-#line 1576 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1576 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 58: /* MulExp: UnaryExp  */
-#line 235 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 235 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.expr) = (yyvsp[0].expr);}
-#line 1582 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1582 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 59: /* MulExp: MulExp MUL UnaryExp  */
-#line 236 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 236 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.expr) = new TreeBinaryExpr(OpType::OP_Mul, (yyvsp[-2].expr), (yyvsp[0].expr));}
-#line 1588 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1588 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 60: /* MulExp: MulExp DIV UnaryExp  */
-#line 237 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 237 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.expr) = new TreeBinaryExpr(OpType::OP_Div, (yyvsp[-2].expr), (yyvsp[0].expr));}
-#line 1594 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1594 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 61: /* MulExp: MulExp MOD UnaryExp  */
-#line 238 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 238 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.expr) = new TreeBinaryExpr(OpType::OP_Mod, (yyvsp[-2].expr), (yyvsp[0].expr));}
-#line 1600 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1600 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 62: /* UnaryExp: PirmaryExp  */
-#line 242 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 242 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.expr) = (yyvsp[0].expr);}
-#line 1606 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1606 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 63: /* UnaryExp: Ident LP FuncRParams RP  */
-#line 243 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 243 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.expr) = new TreeUnaryExpr(OpType::OP_Func, (yyvsp[-1].funcRP), (yyvsp[-3].ident));}
-#line 1612 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1612 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 64: /* UnaryExp: Ident LP RP  */
-#line 244 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 244 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.expr) = new TreeUnaryExpr(OpType::OP_Func, nullptr, (yyvsp[-2].ident));}
-#line 1618 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1618 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 65: /* UnaryExp: ADD UnaryExp  */
-#line 245 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 245 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.expr) = new TreeUnaryExpr(OpType::OP_Pos, (yyvsp[0].expr));}
-#line 1624 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1624 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 66: /* UnaryExp: SUB UnaryExp  */
-#line 246 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 246 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.expr) = new TreeUnaryExpr(OpType::OP_Neg, (yyvsp[0].expr));}
-#line 1630 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1630 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 67: /* UnaryExp: NOT UnaryExp  */
-#line 247 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 247 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.expr) = new TreeUnaryExpr(OpType::OP_Lnot, (yyvsp[0].expr));}
-#line 1636 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1636 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 68: /* PirmaryExp: LP Exp RP  */
-#line 252 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 252 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.expr) = (yyvsp[-1].expr);}
-#line 1642 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1642 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 69: /* PirmaryExp: LVal  */
-#line 253 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 253 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.expr) = (yyvsp[0].lVal);}
-#line 1648 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1648 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 70: /* PirmaryExp: Number  */
-#line 254 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 254 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.expr) = (yyvsp[0].integer);}
-#line 1654 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1654 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 71: /* LVal: Ident LValList  */
-#line 259 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 259 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.lVal) = new TreeLVal((yyvsp[-1].ident), (yyvsp[0].vecTreeExpr));}
-#line 1660 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1660 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 72: /* LValList: %empty  */
-#line 263 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 263 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.vecTreeExpr) = new std::vector<TreeExpr*>();}
-#line 1666 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1666 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 73: /* LValList: LValList LB Exp RB  */
-#line 264 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 264 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.vecTreeExpr) = (yyvsp[-3].vecTreeExpr); (yyval.vecTreeExpr)->push_back((yyvsp[-1].expr));}
-#line 1672 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1672 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 74: /* FuncRParams: Exp FuncRP_  */
-#line 268 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 268 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {auto *tmp = new std::vector<TreeExpr*>();
                                                 tmp->push_back((yyvsp[-1].expr));
                                              (yyval.funcRP) = new TreeFuncRParams(tmp);
                                              for (auto& t : *(yyvsp[0].vecTreeExpr)) (yyval.funcRP)->child->push_back(t);   
                                             }
-#line 1682 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1682 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 75: /* FuncRP_: %empty  */
-#line 276 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 276 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.vecTreeExpr) = new std::vector<TreeExpr*>();}
-#line 1688 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1688 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
   case 76: /* FuncRP_: FuncRP_ COMMA Exp  */
-#line 277 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 277 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
                                             {(yyval.vecTreeExpr) = (yyvsp[-2].vecTreeExpr); (yyval.vecTreeExpr)->push_back((yyvsp[0].expr));}
-#line 1694 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1694 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
     break;
 
 
-#line 1698 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc"
+#line 1698 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc"
 
       default: break;
     }
@@ -1887,7 +1887,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 281 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 281 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
 
 
 void yyerror(const char *s) {

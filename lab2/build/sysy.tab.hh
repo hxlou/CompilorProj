@@ -35,8 +35,8 @@
    especially those whose name start with YY_ or yy_.  They are
    private implementation details that can be changed or removed.  */
 
-#ifndef YY_YY_HOME_LLL_MYC_ACCIPIT_MAIN_LAB1_BUILD_SYSY_TAB_HH_INCLUDED
-# define YY_YY_HOME_LLL_MYC_ACCIPIT_MAIN_LAB1_BUILD_SYSY_TAB_HH_INCLUDED
+#ifndef YY_YY_HOME_LLL_MYC_ACCIPIT_MAIN_LAB2_BUILD_SYSY_TAB_HH_INCLUDED
+# define YY_YY_HOME_LLL_MYC_ACCIPIT_MAIN_LAB2_BUILD_SYSY_TAB_HH_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -96,7 +96,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 12 "/home/lll/MyC/accipit-main/lab1/src/sysy.y"
+#line 12 "/home/lll/MyC/accipit-main/lab2/src/sysy.y"
 
     int ival;                       // value
     // std::string     name;           // ident name
@@ -124,7 +124,7 @@ union YYSTYPE
     Node*           nptr;           // node
     
 
-#line 128 "/home/lll/MyC/accipit-main/lab1/build/sysy.tab.hh"
+#line 128 "/home/lll/MyC/accipit-main/lab2/build/sysy.tab.hh"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -139,4 +139,4 @@ extern YYSTYPE yylval;
 int yyparse (void);
 
 
-#endif /* !YY_YY_HOME_LLL_MYC_ACCIPIT_MAIN_LAB1_BUILD_SYSY_TAB_HH_INCLUDED  */
+#endif /* !YY_YY_HOME_LLL_MYC_ACCIPIT_MAIN_LAB2_BUILD_SYSY_TAB_HH_INCLUDED  */

@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/lll/MyC/accipit-main/lab1
+CMAKE_SOURCE_DIR = /home/lll/MyC/accipit-main/lab2
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/lll/MyC/accipit-main/lab1/build
+CMAKE_BINARY_DIR = /home/lll/MyC/accipit-main/lab2/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/compiler.dir/depend.make
@@ -70,8 +70,8 @@ include CMakeFiles/compiler.dir/progress.make
 include CMakeFiles/compiler.dir/flags.make
 
 sysy.tab.cc: ../src/sysy.y
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/lll/MyC/accipit-main/lab1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "[BISON][Parser] Building parser with bison 3.8.2"
-	cd /home/lll/MyC/accipit-main/lab1 && /usr/bin/bison -d --verbose -o /home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc /home/lll/MyC/accipit-main/lab1/src/sysy.y
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/lll/MyC/accipit-main/lab2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "[BISON][Parser] Building parser with bison 3.8.2"
+	cd /home/lll/MyC/accipit-main/lab2 && /usr/bin/bison -d --verbose -o /home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc /home/lll/MyC/accipit-main/lab2/src/sysy.y
 
 sysy.output: sysy.tab.cc
 	@$(CMAKE_COMMAND) -E touch_nocreate sysy.output
@@ -80,65 +80,65 @@ sysy.tab.hh: sysy.tab.cc
 	@$(CMAKE_COMMAND) -E touch_nocreate sysy.tab.hh
 
 sysy.lex.cc: ../src/sysy.l
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/lll/MyC/accipit-main/lab1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "[FLEX][Lexer] Building scanner with flex 2.6.4"
-	cd /home/lll/MyC/accipit-main/lab1 && /usr/bin/flex -o/home/lll/MyC/accipit-main/lab1/build/sysy.lex.cc /home/lll/MyC/accipit-main/lab1/src/sysy.l
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/lll/MyC/accipit-main/lab2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "[FLEX][Lexer] Building scanner with flex 2.6.4"
+	cd /home/lll/MyC/accipit-main/lab2 && /usr/bin/flex -o/home/lll/MyC/accipit-main/lab2/build/sysy.lex.cc /home/lll/MyC/accipit-main/lab2/src/sysy.l
 
 CMakeFiles/compiler.dir/src/ast/ast.cpp.o: CMakeFiles/compiler.dir/flags.make
 CMakeFiles/compiler.dir/src/ast/ast.cpp.o: ../src/ast/ast.cpp
 CMakeFiles/compiler.dir/src/ast/ast.cpp.o: CMakeFiles/compiler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lll/MyC/accipit-main/lab1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/compiler.dir/src/ast/ast.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/compiler.dir/src/ast/ast.cpp.o -MF CMakeFiles/compiler.dir/src/ast/ast.cpp.o.d -o CMakeFiles/compiler.dir/src/ast/ast.cpp.o -c /home/lll/MyC/accipit-main/lab1/src/ast/ast.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lll/MyC/accipit-main/lab2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/compiler.dir/src/ast/ast.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/compiler.dir/src/ast/ast.cpp.o -MF CMakeFiles/compiler.dir/src/ast/ast.cpp.o.d -o CMakeFiles/compiler.dir/src/ast/ast.cpp.o -c /home/lll/MyC/accipit-main/lab2/src/ast/ast.cpp
 
 CMakeFiles/compiler.dir/src/ast/ast.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/compiler.dir/src/ast/ast.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lll/MyC/accipit-main/lab1/src/ast/ast.cpp > CMakeFiles/compiler.dir/src/ast/ast.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lll/MyC/accipit-main/lab2/src/ast/ast.cpp > CMakeFiles/compiler.dir/src/ast/ast.cpp.i
 
 CMakeFiles/compiler.dir/src/ast/ast.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/compiler.dir/src/ast/ast.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lll/MyC/accipit-main/lab1/src/ast/ast.cpp -o CMakeFiles/compiler.dir/src/ast/ast.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lll/MyC/accipit-main/lab2/src/ast/ast.cpp -o CMakeFiles/compiler.dir/src/ast/ast.cpp.s
 
 CMakeFiles/compiler.dir/src/main.cpp.o: CMakeFiles/compiler.dir/flags.make
 CMakeFiles/compiler.dir/src/main.cpp.o: ../src/main.cpp
 CMakeFiles/compiler.dir/src/main.cpp.o: CMakeFiles/compiler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lll/MyC/accipit-main/lab1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/compiler.dir/src/main.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/compiler.dir/src/main.cpp.o -MF CMakeFiles/compiler.dir/src/main.cpp.o.d -o CMakeFiles/compiler.dir/src/main.cpp.o -c /home/lll/MyC/accipit-main/lab1/src/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lll/MyC/accipit-main/lab2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/compiler.dir/src/main.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/compiler.dir/src/main.cpp.o -MF CMakeFiles/compiler.dir/src/main.cpp.o.d -o CMakeFiles/compiler.dir/src/main.cpp.o -c /home/lll/MyC/accipit-main/lab2/src/main.cpp
 
 CMakeFiles/compiler.dir/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/compiler.dir/src/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lll/MyC/accipit-main/lab1/src/main.cpp > CMakeFiles/compiler.dir/src/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lll/MyC/accipit-main/lab2/src/main.cpp > CMakeFiles/compiler.dir/src/main.cpp.i
 
 CMakeFiles/compiler.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/compiler.dir/src/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lll/MyC/accipit-main/lab1/src/main.cpp -o CMakeFiles/compiler.dir/src/main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lll/MyC/accipit-main/lab2/src/main.cpp -o CMakeFiles/compiler.dir/src/main.cpp.s
 
 CMakeFiles/compiler.dir/sysy.lex.cc.o: CMakeFiles/compiler.dir/flags.make
 CMakeFiles/compiler.dir/sysy.lex.cc.o: sysy.lex.cc
 CMakeFiles/compiler.dir/sysy.lex.cc.o: sysy.tab.hh
 CMakeFiles/compiler.dir/sysy.lex.cc.o: CMakeFiles/compiler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lll/MyC/accipit-main/lab1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/compiler.dir/sysy.lex.cc.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/compiler.dir/sysy.lex.cc.o -MF CMakeFiles/compiler.dir/sysy.lex.cc.o.d -o CMakeFiles/compiler.dir/sysy.lex.cc.o -c /home/lll/MyC/accipit-main/lab1/build/sysy.lex.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lll/MyC/accipit-main/lab2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/compiler.dir/sysy.lex.cc.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/compiler.dir/sysy.lex.cc.o -MF CMakeFiles/compiler.dir/sysy.lex.cc.o.d -o CMakeFiles/compiler.dir/sysy.lex.cc.o -c /home/lll/MyC/accipit-main/lab2/build/sysy.lex.cc
 
 CMakeFiles/compiler.dir/sysy.lex.cc.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/compiler.dir/sysy.lex.cc.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lll/MyC/accipit-main/lab1/build/sysy.lex.cc > CMakeFiles/compiler.dir/sysy.lex.cc.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lll/MyC/accipit-main/lab2/build/sysy.lex.cc > CMakeFiles/compiler.dir/sysy.lex.cc.i
 
 CMakeFiles/compiler.dir/sysy.lex.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/compiler.dir/sysy.lex.cc.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lll/MyC/accipit-main/lab1/build/sysy.lex.cc -o CMakeFiles/compiler.dir/sysy.lex.cc.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lll/MyC/accipit-main/lab2/build/sysy.lex.cc -o CMakeFiles/compiler.dir/sysy.lex.cc.s
 
 CMakeFiles/compiler.dir/sysy.tab.cc.o: CMakeFiles/compiler.dir/flags.make
 CMakeFiles/compiler.dir/sysy.tab.cc.o: sysy.tab.cc
 CMakeFiles/compiler.dir/sysy.tab.cc.o: CMakeFiles/compiler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lll/MyC/accipit-main/lab1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/compiler.dir/sysy.tab.cc.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/compiler.dir/sysy.tab.cc.o -MF CMakeFiles/compiler.dir/sysy.tab.cc.o.d -o CMakeFiles/compiler.dir/sysy.tab.cc.o -c /home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lll/MyC/accipit-main/lab2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/compiler.dir/sysy.tab.cc.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/compiler.dir/sysy.tab.cc.o -MF CMakeFiles/compiler.dir/sysy.tab.cc.o.d -o CMakeFiles/compiler.dir/sysy.tab.cc.o -c /home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc
 
 CMakeFiles/compiler.dir/sysy.tab.cc.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/compiler.dir/sysy.tab.cc.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc > CMakeFiles/compiler.dir/sysy.tab.cc.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc > CMakeFiles/compiler.dir/sysy.tab.cc.i
 
 CMakeFiles/compiler.dir/sysy.tab.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/compiler.dir/sysy.tab.cc.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lll/MyC/accipit-main/lab1/build/sysy.tab.cc -o CMakeFiles/compiler.dir/sysy.tab.cc.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lll/MyC/accipit-main/lab2/build/sysy.tab.cc -o CMakeFiles/compiler.dir/sysy.tab.cc.s
 
 # Object files for target compiler
 compiler_OBJECTS = \
@@ -156,7 +156,7 @@ compiler: CMakeFiles/compiler.dir/sysy.lex.cc.o
 compiler: CMakeFiles/compiler.dir/sysy.tab.cc.o
 compiler: CMakeFiles/compiler.dir/build.make
 compiler: CMakeFiles/compiler.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/lll/MyC/accipit-main/lab1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable compiler"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/lll/MyC/accipit-main/lab2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable compiler"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/compiler.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -171,6 +171,6 @@ CMakeFiles/compiler.dir/depend: sysy.lex.cc
 CMakeFiles/compiler.dir/depend: sysy.output
 CMakeFiles/compiler.dir/depend: sysy.tab.cc
 CMakeFiles/compiler.dir/depend: sysy.tab.hh
-	cd /home/lll/MyC/accipit-main/lab1/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/lll/MyC/accipit-main/lab1 /home/lll/MyC/accipit-main/lab1 /home/lll/MyC/accipit-main/lab1/build /home/lll/MyC/accipit-main/lab1/build /home/lll/MyC/accipit-main/lab1/build/CMakeFiles/compiler.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/lll/MyC/accipit-main/lab2/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/lll/MyC/accipit-main/lab2 /home/lll/MyC/accipit-main/lab2 /home/lll/MyC/accipit-main/lab2/build /home/lll/MyC/accipit-main/lab2/build /home/lll/MyC/accipit-main/lab2/build/CMakeFiles/compiler.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/compiler.dir/depend
 

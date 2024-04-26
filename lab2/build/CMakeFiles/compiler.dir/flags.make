@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = -DFMT_HEADER_ONLY=1
 
-CXX_INCLUDES = -I/home/lll/MyC/accipit-main/lab1/include -I/home/lll/MyC/accipit-main/lab1/third_party/fmt/include
+CXX_INCLUDES = -I/home/lll/MyC/accipit-main/lab2/include -I/home/lll/MyC/accipit-main/lab2/third_party/fmt/include
 
 CXX_FLAGS = -Wall -Wno-register
 

@@ -1,0 +1,12 @@
+int foo (int a[][10]) {
+
+}
+
+int tt[10][10];
+
+int main () {
+    foo(tt);
+    // break;
+    return 1;
+}
+
