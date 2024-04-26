@@ -16,12 +16,22 @@ int main(int argc, char **argv) {
             }
             root = nullptr;
             yyparse();
-            print_tree(root);       //?root存在内存泄漏
+            try{    
+                print_tree(root);       //?root存在内存泄漏
+            }
+            catch (const char *s) {
+                fmt::print("\033[31m[ERROR] :\033[0m {}", s);
+            }
         }
     }
     else {
         yyparse();
-        print_tree(root);
+        try{    
+            print_tree(root);       //?root存在内存泄漏
+        }
+        catch (const char *s) {
+            fmt::print("\033[31m[ERROR] :\033[0m {}", s);
+        }
     }
     
     fmt::print("[***]Hello, World!\n");

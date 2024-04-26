@@ -290,14 +290,15 @@ struct TreeLVal : public TreeExpr {
 
     TreeLVal    (TreeIdent* i, std::vector<TreeExpr* > * exprs) :
         TreeExpr(this_type), ident(i), exprs(exprs)  {
-            hasExpress = exprs->size();
+            if (exprs != nullptr) hasExpress = exprs->size();
+            else hasExpress = false;
         };
 };
 
 
 
 /// A possible helper function dipatch based on the type of `TreeExpr`
-void print_tree(Node* node, std::string prefix = "");
+void print_tree(Node* node, std::string prefix = "", bool isfunctiondef = false);
 
 /**
  * Node(base)
