@@ -21,6 +21,7 @@ int main(int argc, char **argv) {
             }
             catch (const char *s) {
                 fmt::print("\033[31m[ERROR] :\033[0m {}", s);
+                return 1;
             }
         }
     }
@@ -31,6 +32,7 @@ int main(int argc, char **argv) {
         }
         catch (const char *s) {
             fmt::print("\033[31m[ERROR] :\033[0m {}", s);
+            return 1;
         }
     }
     
