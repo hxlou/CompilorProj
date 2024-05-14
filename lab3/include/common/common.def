@@ -46,9 +46,9 @@ OpcodeDefine(OP_Land,   "and")      // &&
 OpcodeDefine(OP_Lor,    "or")       // ||
 OpcodeDefine(OP_Lxor,   "xor")      // ^
 // Unary Opcode     []dan mu yun suan fu
-OpcodeDefine(OP_Lnot,   "not")      // !
-OpcodeDefine(OP_Neg,    "neg")      // - 
-OpcodeDefine(OP_Pos,    "pos")      // +
+OpcodeDefine(OP_Lnot,   "not")      // !    ?
+OpcodeDefine(OP_Neg,    "neg")      // -    ?
+OpcodeDefine(OP_Pos,    "pos")      // +    ?
 OpcodeDefine(OP_Non,    "non")      // +
 OpcodeDefine(OP_Func,    "FunctionCall")      // +
 

@@ -1,8 +1,12 @@
 #include "ast/ast.h"
 #include "ast/symbolTable.h"
+#include "accsys/include/ir/ir.h"
+#include "accsys/include/ir/type.h"
+
 #include <fmt/core.h>
 #include <iostream>
 #include <cassert>
+
 
 extern int isInLoop;
 extern std::vector<std::map<std::string, IdentTypeNode>> IDSymbolTable;
@@ -27,6 +31,7 @@ void print_tree(Node* node, std::string prefix, bool isfunctiondef) {
     fmt::print(prefix);
 
     // new domain
+    // new module
     if (auto *comp = node->as<CompUnit*>()) {
         newDomain();
         addRunTimeFunc();
@@ -37,7 +42,7 @@ void print_tree(Node* node, std::string prefix, bool isfunctiondef) {
         deleteDomain();
     }
 
-
+    // do nothing
     if (auto *type = node->as<TreeType*>()) {
         switch (type->type)
         {
@@ -52,11 +57,13 @@ void print_tree(Node* node, std::string prefix, bool isfunctiondef) {
     }
 
     // identy name
+    // do nothing just print the tree
     if (auto *id = node->as<TreeIdent*>()) {
         fmt::print("Ident {}\n", id->IdentName);
     }
 
     // left value assigment
+    // binary instValue                                
     if (auto *les = node->as<TreeLvalEqStmt*>()) {
         fmt::print("BinOp Assign\n");
         check(les);
