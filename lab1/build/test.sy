@@ -8,5 +8,4 @@ int main () {
     else {
         a = a + 2;
     }
-
 }
