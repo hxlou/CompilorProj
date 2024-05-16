@@ -331,7 +331,6 @@ public:
     };    
 };
 
-
 class BinaryInst: public Instruction {
 protected:
     BinaryInst(BinaryOps Op, Value *LHS, Value *RHS, Type* Ty,
@@ -417,7 +416,6 @@ public:
     }
 };
 
-
 class LoadInst: public Instruction {
 protected:
     LoadInst(Value *Ptr, Instruction *InsertBefore);
@@ -437,7 +435,6 @@ public:
         return isa<Instruction>(V) && classof(cast<Instruction>(V));
     }
 };
-
 
 class OffsetInst: public Instruction {
 protected:
@@ -734,13 +731,13 @@ public:
     using arg_iterator = Argument *;
     using const_arg_iterator = const Argument *;
 private:
-    FunctionType *FTy;
-    unsigned NumArgs = 0;
-    Argument *Arguments = nullptr;
-    bool ExternalLinkage = false;
-    std::string Name;
-    Module *Parent;
-    BasicBlockListType BasicBlockList;
+    FunctionType *FTy;                  // type
+    unsigned NumArgs = 0;               // the nums of args
+    Argument *Arguments = nullptr;      // arg
+    bool ExternalLinkage = false;       // extern 
+    std::string Name;                   // name
+    Module *Parent;                     // parent
+    BasicBlockListType BasicBlockList;  // bb list
 
     friend class BasicBlock;
 
@@ -809,11 +806,11 @@ protected:
     GlobalVariable(Type *EleTy, std::size_t NumElements, bool ExternalLinkage,
                    std::string_view Name, Module *M);
 private:
-    Type *EleTy;
-    std::size_t NumElements;
-    bool ExternalLinkage;
-    std::string Name;
-    Module *Parent;
+    Type *EleTy;                // element type
+    std::size_t NumElements;    // the nums of element
+    bool ExternalLinkage;       // is extern
+    std::string Name;           // name(must)
+    Module *Parent;             // belong to which module
 public:
     static GlobalVariable *Create(Type *EleTy, std::size_t NumElements = 1, bool ExternalLinkage = false,
                                   std::string_view Name = "", Module *M = nullptr);

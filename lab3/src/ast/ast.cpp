@@ -1,7 +1,5 @@
 #include "ast/ast.h"
 #include "ast/symbolTable.h"
-#include "accsys/include/ir/ir.h"
-#include "accsys/include/ir/type.h"
 
 #include <fmt/core.h>
 #include <iostream>
@@ -134,11 +132,13 @@ void print_tree(Node* node, std::string prefix, bool isfunctiondef) {
     if (auto *block = node->as<TreeBlock*>()) {
         fmt::print("Block\n");
         newDomain();
+
         if (isfunctiondef) {
             // copy the fparams' domain to the func's block's domain
             int n = IDSymbolTable.size();
             IDSymbolTable[n-1] = IDSymbolTable[n-2];
         }
+        
         for (unsigned int i = 0; i < block->child->size(); ++i) {
             print_tree(block->child->at(i), prefix + "    ");
         }
@@ -177,6 +177,7 @@ void print_tree(Node* node, std::string prefix, bool isfunctiondef) {
         nowFunc = addToFuncSymbolTable(funcDef);
         newDomain();
         addFuncParamsToTable(funcDef);
+
         std::string type = funcDef->type->type == 0 ? "VOID" : "INT";
         fmt::print("Func Def {} {}\n", type, funcDef->ident->IdentName);
         // params
@@ -187,6 +188,7 @@ void print_tree(Node* node, std::string prefix, bool isfunctiondef) {
         }
         // block
         print_tree(funcDef->block, prefix + "    ", true);
+        
         deleteDomain();
         nowFunc = nullptr;
     }

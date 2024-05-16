@@ -29,7 +29,7 @@ if(MSVC)
   add_link_options("$<$<CONFIG:Debug>:/fsanitize=address;/DEBUG:FULL>")
 else()
   # disable warnings caused by old version of Flex
-  add_compile_options(-Wall -Wextra -Wno-register)
+  add_compile_options(-Wall -Wextra -Wno-register -Wno-unused-variable)
   add_compile_options("$<$<CONFIG:Debug>:-O0;-g;-fsanitize=address;-fno-omit-frame-pointer;-fno-optimize-sibling-calls>;$<$<CONFIG:Release>:-O2;-DNDEBUG>")
   add_link_options("$<$<CONFIG:Debug>:-fsanitize=address>")
 endif()
