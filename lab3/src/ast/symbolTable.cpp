@@ -209,7 +209,7 @@ IdentTypeNode* checkIdDefine(TreeIdent* ident) {
 FuncTypeNode* checkFuncDefine(TreeIdent* ident) {
     // bool find = false;
     // int n = FuncSymbolTable.size();
-    
+
     for (int i = 0; i >= 0; --i) {
         auto mp = FuncSymbolTable[i];
         auto it = mp.find(ident->IdentName);
@@ -277,7 +277,7 @@ FuncTypeNode* addToFuncSymbolTable (TreeFuncDef* node) {
         throw("There is no domain to add\n");
     }
     else if (n >= 2) {
-        throw("Function can only define in the gloable domain\n");
+        // throw("Function can only define in the gloable domain\n");
     }
     // check
     if (FuncSymbolTable[0].find(node->ident->IdentName) != FuncSymbolTable[0].end()) {

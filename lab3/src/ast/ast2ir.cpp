@@ -32,13 +32,11 @@ Value* translate_expr(TreeExpr* expr, BasicBlock* bb) {
         // var or array
         // array a[x1][x2][x3]
         lval->ident->IdentName = getTranstedName(lval->ident->IdentName);
-        std::cout << "[debug]: now lval is " << lval->ident->IdentName << std::endl;
         IdentTypeNode* ll = checkIdDefine(lval->ident);
         
         if ((ll->dimension != 0) && ( (lval->exprs == nullptr) || (lval->exprs != nullptr && lval->exprs->size() < ll->dimension) )) {
             // this way we need to return a pointer
             // return a offset, while the last params is 0
-            std::cout << "[debug]: lval is a pointer" << std::endl;
             std::vector<Value*> v;
             std::vector <std::optional<std::size_t>> BoundList;
             IdentTypeNode* IdType = checkIdDefine(lval->ident);
@@ -77,7 +75,6 @@ Value* translate_expr(TreeExpr* expr, BasicBlock* bb) {
             return off;
         }
         else if (lval->hasExpress) {
-            std::cout << "[debug]: lval is a array" << std::endl;
             // array and need to cal the index(values) and BoundList
             // use offset to cal address 
             // use load to get the value if it is jvbu
@@ -112,16 +109,9 @@ Value* translate_expr(TreeExpr* expr, BasicBlock* bb) {
         // just number(ID)
         else {
             // just number and load is ok
-            std::cout << "[debug]: lval is a number" << std::endl;
-            std::cout << "[debug]: lval is a number and name is " << lval->ident->IdentName << std::endl;
             bool isG = false;
             Value* ptr = findValue(lval->ident->IdentName, isG);
-            if (ptr == nullptr || bb == nullptr) {
-                std::cout << "[error]" << std::endl;
-            }
-            std::cout << "[debug]: start create load" << std::endl;
             Value* load = LoadInst::Create(ptr, bb);
-            std::cout << "[debug]: lval is a number and load success" << std::endl;
             return load;
         }
     }
@@ -195,20 +185,14 @@ Value* translate_expr(TreeExpr* expr, BasicBlock* bb) {
     else if (auto *uop = expr->as<TreeUnaryExpr*>()) {
         // function call
         if (uop->op == OpType::OP_Func) {
-            std::cout << "now is in funciton call" << std::endl;
             Function* f = CompMod->getFunction(uop->id->IdentName);
             std::vector<Value*> Args {};
             if (uop->operand != nullptr) {
-                std::cout << "[***]" << std::endl;
                 auto* rparams = uop->operand->as<TreeFuncRParams*>();
-                std::cout << "[###]" << std::endl;
                 for (unsigned int i = 0; i < rparams->child->size(); ++i) {
-                    std::cout << "[...]" << std::endl;
                     Args.push_back(translate_expr(rparams->child->at(i), bb));
-                    std::cout << "[^^^]" << std::endl;
                 }
             }
-            std::cout << "[debug] : now get params" << std::endl;
             Value* res = CallInst::Create(f, Args, bb);
             return res;
         }
@@ -291,7 +275,6 @@ void translate_expr(TreeLvalEqStmt* expr, BasicBlock* bb) {
 // if it is in a function, it should use alloc and store, and store to the IDValueTable
 // if it is a global, it should be store to module and IDValueTable
 void translate_expr(TreeVarDecl* decl, BasicBlock* bb) {
-    std::cout << "[debug]: now is in var decl" << std::endl;
     // if size == 1 for gloable var
     if (IDValueTable.size() == 1) {
         // gloable
@@ -348,7 +331,6 @@ void translate_expr(TreeVarDecl* decl, BasicBlock* bb) {
             TreeVarDef* def = decl->varDef->at(i);
             // change the var's name in the tree
             def->ident->IdentName = transName(def->ident->IdentName);
-            std::cout << "[debug]: name " << def->ident->IdentName << std::endl;
             int arraySize = 1;
             if (def->isArry) {
                 idTypeNode.type = DeType::ARRAY_INT;
@@ -540,7 +522,6 @@ BasicBlock* translate_stmt(TreeStmt* stmt, BasicBlock* bb, bool fromFunc) {
     }
     // OK return
     else if (auto* Ret = stmt->as<TreeReturnStmt*>()) {
-        std::cout << "[debug]: now is in return" << std::endl;
         BasicBlock* retBB = &bb->getParent()->back();
         bool isG = false;
         Value* ptr = findValue("return", isG);
@@ -580,6 +561,7 @@ BasicBlock* translate_stmt(TreeStmt* stmt, BasicBlock* bb, bool fromFunc) {
     else if (auto* Block = stmt->as<TreeBlock*>()) {
         BasicBlock* now = bb;
         newValueDomain();
+        newDomain();
         // if func
         if (fromFunc) {
             int n = IDValueTable.size();
@@ -595,6 +577,7 @@ BasicBlock* translate_stmt(TreeStmt* stmt, BasicBlock* bb, bool fromFunc) {
             }
         }
         deleteValueDomain();
+        deleteDomain();
         return now;
     }
     // OK else translate_expr don't need to new bb or else
@@ -621,14 +604,12 @@ Value* findValue(std::string ss, bool& isGlobal) {
     // 
     isGlobal = false;
     int size = IDValueTable.size() - 1;
-    std::cout << "[debug]: size is " << size << std::endl;
     for (int i = size; i >= 0; --i) {
         auto it = IDValueTable[i].find(ss);
         if (it != IDValueTable[i].end()) {
             if (i == 0) {
                 isGlobal = true;
             }
-            std::cout << "[debug]: return success" << std::endl;
             return it->second;
         }
     }
@@ -734,6 +715,7 @@ void addToNewDomain (Value* ret, TreeFuncDef* fdef, Function* ff) {
     if (it == FuncValueTable[0].end()) {
         FuncValueTable[0][fdef->ident->IdentName] = ff;
     }
+    addToFuncSymbolTable(fdef);
 }
 
 // TODO
@@ -781,8 +763,8 @@ Module* translate_root (Node* node) {
     // translate the root to the ir
     // new domain, and 
     auto* cmp = node->as<CompUnit*>();
-    newValueDomain();
     clearSynbolTable();
+    newValueDomain();
     newDomain();
     // new compMod
     CompMod = new Module();
@@ -800,6 +782,8 @@ Module* translate_root (Node* node) {
     gloVarBB->setName("GlobalBind");
     doGlobalVarBinding(globalVarBinding, gloVarBB);
     Value* j2e = JumpInst::Create(mmentry, gloVarBB);
+    deleteValueDomain();
+    deleteDomain();
     return CompMod;
 }
 
