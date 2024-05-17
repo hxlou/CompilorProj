@@ -1,17 +1,12 @@
 #include "ir/type.h"
 #include "ir/ir.h"
 #include "utils/casting.h"
+#include "ir/ir_write.h"
+
 
 #include <stdexcept>
 #include <ostream>
 
-
-enum PrefixType {
-    GlobalPrefix,
-    ArgPrefix,
-    LocalPrefix,
-    NoPrefix
-};
 
 /// Turn the specified name into an 'Accipit name', which is either prefixed with %
 static void PrintAccipitName(std::ostream &OS, std::string_view Name, PrefixType Prefix) {
@@ -37,34 +32,6 @@ static void PrintAccipitName(std::ostream &OS, const Value *V) {
     PrintAccipitName(OS, V->getName(),
                 isa<GlobalVariable>(V) ? GlobalPrefix : LocalPrefix);
 }
-
-
-class ListSeparator {
-    std::string_view Seperator;
-    bool FirstItem = true;
-public:
-    ListSeparator(std::string_view Separator = ", ") : Seperator(Separator) {}
-    ~ListSeparator() = default;
-    operator std::string_view()  {
-        if (FirstItem) {
-            FirstItem = false;
-            return {};
-        } else {
-            return Seperator;
-        }
-    }
-};
-
-
-namespace {
-
-class TypePrinter {
-public:
-    void print(Type *Ty, std::ostream &os);
-};
-
-} // end of annoymous namespace
-
 
 void TypePrinter::print(Type *Ty, std::ostream &OS) {
     switch (Ty->getTypeID()) {
@@ -95,33 +62,6 @@ void TypePrinter::print(Type *Ty, std::ostream &OS) {
     }
 }
 
-/// Assign the slot number to annoymous values
-class SlotTracker {
-    const Module *M;
-
-    // Global scope slots.
-    std::unordered_map<Function *, unsigned> FunctionSlots;
-    std::unordered_map<GlobalVariable *, unsigned> GlobalSlots;
-    unsigned gNext = 0;
-    // Local scope slots, binding to a specific function.
-    Function *F;
-    std::unordered_map<BasicBlock *, unsigned> BasicBlockSlots;
-    std::unordered_map<Value *, unsigned> LocalSlots;
-    unsigned lNext = 0;
-
-public:
-
-    explicit SlotTracker(const Module *M);
-
-    void incorporateFunction(const Function *F);
-
-    std::optional<unsigned> getGlobalSlot(const GlobalVariable *GV);
-    std::optional<unsigned> getFunctionSlot(const Function *F);
-
-    std::optional<unsigned> getBasicBlockSlot(const BasicBlock *BB);
-    std::optional<unsigned> getLocalSlot(const Value *V);
-};
-
 SlotTracker::SlotTracker(const Module *M) : M(M) {
     for (auto GI = M->global_begin(), GE = M->global_end(); GI != GE; ++GI) {
         if (!GI->hasName())
@@ -133,7 +73,6 @@ SlotTracker::SlotTracker(const Module *M) : M(M) {
             FunctionSlots[&FI] = gNext++;
     }
 }
-
 
 void SlotTracker::incorporateFunction(const Function *F) {
     // clear
@@ -184,8 +123,6 @@ std::optional<unsigned> SlotTracker::getLocalSlot(const Value *V) {
         return std::nullopt;
     return It->second;
 }
-
-
 
 static void WriteConstantInternal(std::ostream &Out, const Constant *C,
                                   SlotTracker &Tracker, bool isForDebug) {
@@ -268,24 +205,6 @@ static void WriteBasicBlockOperandInternal(std::ostream &Out, const BasicBlock *
         }
     }
 }
-
-/// Print the Accipit IR to text form.
-class AccipitWriter {
-    std::ostream &Out;
-    SlotTracker &Tracker;
-    bool isForDebug;
-public:
-    AccipitWriter(std::ostream &OS, SlotTracker &Tracker, bool isForDebug)
-        : Out(OS), Tracker(Tracker), isForDebug(isForDebug) { }
-
-    void printInstruction(const Instruction *I);
-    void printBasicBlock(const BasicBlock *BB);
-    void printArgument(const Argument *Arg);
-    void printFunction(const Function *F);
-    void printGlobalVariable(const GlobalVariable *GV);
-    void printModule(const Module *M);
-};
-
 
 void AccipitWriter::printInstruction(const Instruction *I) {
     if (I->isTerminator()) {
@@ -384,7 +303,7 @@ void AccipitWriter::printInstruction(const Instruction *I) {
             for (unsigned i = 0; i < Dims; ++i) {
                 Out << ", [";
                 WriteAsOperandInternal(Out, Offset->getOperand(i + 1), Tracker, isForDebug);
-                Out << ", ";
+                Out << "< ";
                 auto Bound = Offset->getBound(i);
                 if (Bound.has_value()) {
                     Out << Bound.value();

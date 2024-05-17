@@ -5,6 +5,10 @@
 #include <iostream>
 #include <cassert>
 
+int ifNo = 1;
+int whileNo = 1;
+int retNo = 1;
+
 int isIRinLoop = 0;
 BasicBlock* loopExit = nullptr;
 BasicBlock* loopEntry = nullptr;
@@ -15,6 +19,7 @@ std::vector<std::pair<BasicBlock*, BasicBlock*>> allLoops {};
 
 std::vector<std::map<std::string, Value*>> IDValueTable {};
 std::vector<std::map<std::string, Function*>> FuncValueTable {};
+std::map<std::string, int> IDnameTimes;
 Module* CompMod = nullptr;
 
 extern std::vector<std::map<std::string, IdentTypeNode>> IDSymbolTable;
@@ -26,7 +31,53 @@ Value* translate_expr(TreeExpr* expr, BasicBlock* bb) {
     if (auto *lval = expr->as<TreeLVal*>()) {
         // var or array
         // array a[x1][x2][x3]
-        if (lval->hasExpress) {
+        lval->ident->IdentName = getTranstedName(lval->ident->IdentName);
+        std::cout << "[debug]: now lval is " << lval->ident->IdentName << std::endl;
+        IdentTypeNode* ll = checkIdDefine(lval->ident);
+        
+        if ((ll->dimension != 0) && ( (lval->exprs == nullptr) || (lval->exprs != nullptr && lval->exprs->size() < ll->dimension) )) {
+            // this way we need to return a pointer
+            // return a offset, while the last params is 0
+            std::cout << "[debug]: lval is a pointer" << std::endl;
+            std::vector<Value*> v;
+            std::vector <std::optional<std::size_t>> BoundList;
+            IdentTypeNode* IdType = checkIdDefine(lval->ident);
+            for (int i = 0; i < IdType->dimension; ++i) {
+                if (IdType->domainSize[i] == 0) {
+                    if (i != 0) {
+                        throw("Func's Array Param's index(1,2,3,...) can't be 0 expect index(0)\n");
+                    }
+                    BoundList.push_back(std::nullopt);
+                }
+                else {
+                    BoundList.push_back(IdType->domainSize[i]);
+                }
+            }
+            // get values
+            int exprsNum = 0;
+            if (lval->exprs == nullptr) {
+                exprsNum = 0;
+            }
+            else {
+                exprsNum = lval->exprs->size();
+            }
+            for (int i = 0; i < IdType->dimension; ++i) {
+                if (i < exprsNum) {
+                    v.push_back(translate_expr(lval->exprs->at(i), bb));
+                }
+                else {
+                    v.push_back(ConstantInt::Create(0));
+                }
+            }
+            // ptr
+            bool isG = false;
+            Value* ptr = findValue(lval->ident->IdentName, isG);
+            // offset
+            Value* off = OffsetInst::Create(Type::getIntegerTy(), ptr, v, BoundList, bb);
+            return off;
+        }
+        else if (lval->hasExpress) {
+            std::cout << "[debug]: lval is a array" << std::endl;
             // array and need to cal the index(values) and BoundList
             // use offset to cal address 
             // use load to get the value if it is jvbu
@@ -61,9 +112,16 @@ Value* translate_expr(TreeExpr* expr, BasicBlock* bb) {
         // just number(ID)
         else {
             // just number and load is ok
+            std::cout << "[debug]: lval is a number" << std::endl;
+            std::cout << "[debug]: lval is a number and name is " << lval->ident->IdentName << std::endl;
             bool isG = false;
             Value* ptr = findValue(lval->ident->IdentName, isG);
+            if (ptr == nullptr || bb == nullptr) {
+                std::cout << "[error]" << std::endl;
+            }
+            std::cout << "[debug]: start create load" << std::endl;
             Value* load = LoadInst::Create(ptr, bb);
+            std::cout << "[debug]: lval is a number and load success" << std::endl;
             return load;
         }
     }
@@ -123,7 +181,7 @@ Value* translate_expr(TreeExpr* expr, BasicBlock* bb) {
             res = BinaryInst::CreateGe(lhs, rhs, ty, bb);
             break;
         case OpType::OP_Eq:
-            res = BinaryInst::CreateMul(lhs, rhs, ty, bb);
+            res = BinaryInst::CreateEq(lhs, rhs, ty, bb);
             break;
         case OpType::OP_Ne:
             res = BinaryInst::CreateNe(lhs, rhs, ty, bb);
@@ -137,12 +195,20 @@ Value* translate_expr(TreeExpr* expr, BasicBlock* bb) {
     else if (auto *uop = expr->as<TreeUnaryExpr*>()) {
         // function call
         if (uop->op == OpType::OP_Func) {
+            std::cout << "now is in funciton call" << std::endl;
             Function* f = CompMod->getFunction(uop->id->IdentName);
             std::vector<Value*> Args {};
-            auto* rparams = uop->operand->as<TreeFuncRParams*>();
-            for (unsigned int i = 0; i < rparams->child->size(); ++i) {
-                Args.push_back(translate_expr(rparams->child->at(i), bb));
+            if (uop->operand != nullptr) {
+                std::cout << "[***]" << std::endl;
+                auto* rparams = uop->operand->as<TreeFuncRParams*>();
+                std::cout << "[###]" << std::endl;
+                for (unsigned int i = 0; i < rparams->child->size(); ++i) {
+                    std::cout << "[...]" << std::endl;
+                    Args.push_back(translate_expr(rparams->child->at(i), bb));
+                    std::cout << "[^^^]" << std::endl;
+                }
             }
+            std::cout << "[debug] : now get params" << std::endl;
             Value* res = CallInst::Create(f, Args, bb);
             return res;
         }
@@ -176,11 +242,13 @@ Value* translate_expr(TreeExpr* expr, BasicBlock* bb) {
 // left value assigment
 // change the table, means that a symbol's value is change to the newest
 void translate_expr(TreeLvalEqStmt* expr, BasicBlock* bb) {
+    
     // Lval: global or jvbu
     // if global, just change and update table
     // if jvbu, get address + store + update table
     TreeLVal* lval = expr->lval->as<TreeLVal*>();
     TreeExpr* rexp = expr->exp;
+    lval->ident->IdentName = getTranstedName(lval->ident->IdentName);
     Value* r = translate_expr(rexp, bb);
     bool isG = false;
     Value* ptr = findValue(lval->ident->IdentName, isG);
@@ -223,12 +291,14 @@ void translate_expr(TreeLvalEqStmt* expr, BasicBlock* bb) {
 // if it is in a function, it should use alloc and store, and store to the IDValueTable
 // if it is a global, it should be store to module and IDValueTable
 void translate_expr(TreeVarDecl* decl, BasicBlock* bb) {
+    std::cout << "[debug]: now is in var decl" << std::endl;
     // if size == 1 for gloable var
     if (IDValueTable.size() == 1) {
         // gloable
         // 1. create GlobalVariable
         // 2. if is a num, store the def waiting for the binding
         // 3. update the 2 tables
+        // 4. don't change name
         Type* ty = nullptr;
         if (decl->type->type == 1) {
             ty = Type::getIntegerTy();
@@ -257,6 +327,7 @@ void translate_expr(TreeVarDecl* decl, BasicBlock* bb) {
                 gvar = GlobalVariable::Create(ty, 1, false, def->ident->IdentName, CompMod);
                 globalVarBinding.push_back(def);
             }
+            gvar->setName(def->ident->IdentName);
             // update the table
             IDValueTable[0][def->ident->IdentName] = gvar;
             IDSymbolTable[0][def->ident->IdentName] = idTypeNode;
@@ -264,6 +335,7 @@ void translate_expr(TreeVarDecl* decl, BasicBlock* bb) {
     }
     else {
         // jvbu var
+        // change name
         Function* pp = bb->getParent();
         BasicBlock* fentry = &pp->getEntryBlock();
         Type* ty = nullptr;
@@ -274,6 +346,9 @@ void translate_expr(TreeVarDecl* decl, BasicBlock* bb) {
             IdentTypeNode idTypeNode;
             idTypeNode.type = DeType::INT, idTypeNode.dimension = 0;
             TreeVarDef* def = decl->varDef->at(i);
+            // change the var's name in the tree
+            def->ident->IdentName = transName(def->ident->IdentName);
+            std::cout << "[debug]: name " << def->ident->IdentName << std::endl;
             int arraySize = 1;
             if (def->isArry) {
                 idTypeNode.type = DeType::ARRAY_INT;
@@ -282,12 +357,16 @@ void translate_expr(TreeVarDecl* decl, BasicBlock* bb) {
                     arraySize *= def->child->at(j)->value;
                     idTypeNode.domainSize.push_back(def->child->at(j)->value);
                 }
+                if (idTypeNode.dimension == 0) {
+                    idTypeNode.type = DeType::INT;
+                }
             }
             Value* talloc = AllocaInst::Create(ty, arraySize, fentry);
+            talloc->setName(def->ident->IdentName);
             if (!def->isArry) {
                 // if not array, we need to store the true value to it
-                Value* trueValue = translate_expr(def->initVal, fentry);
-                Value* trueValueStore = StoreInst::Create(trueValue, talloc, fentry);
+                Value* trueValue = translate_expr(def->initVal, bb);
+                Value* trueValueStore = StoreInst::Create(trueValue, talloc, bb);
             }
             // update table
             IDValueTable[IDValueTable.size() - 1][def->ident->IdentName] = talloc;
@@ -333,6 +412,7 @@ Value* translate_expr(TreeFuncDef* fdef, BasicBlock* bb) {
     Value* fret = nullptr;
     if (fdef->type->type == 1) {
         fret = AllocaInst::Create(Type::getIntegerTy(), 1, fentryBB);
+        fret->setName("ret");
     }
     else {
         // fret = AllocaInst::Create(Type::getUnitTy(), 1, fentryBB);
@@ -347,20 +427,21 @@ Value* translate_expr(TreeFuncDef* fdef, BasicBlock* bb) {
         Value* load = LoadInst::Create(fret, fretBB);
         Value* retI = RetInst::Create(load, fretBB);
     }
-    // if main, need to do binding
 
     // ret and jvbu need to add to new domain
     // translate the body of function
     newDomain();
     newValueDomain();
     isIRInFunc = 1;
-    
+    ifNo = 1, whileNo = 1, retNo = 1;
+
     addToNewDomain(fret, fdef, fun);
     BasicBlock* fBodyRet = translate_stmt(fdef->block, fbodyBB, true);
 
     isIRInFunc = 0;
     deleteValueDomain();
     deleteDomain();
+    clearNameNumTable();
     // fentryBB jump to func's body
     Value* bodyRet2exit = JumpInst::Create(fretBB, fBodyRet);
     Value* j2body = JumpInst::Create(fbodyBB, fentryBB);
@@ -373,9 +454,18 @@ BasicBlock* translate_stmt(TreeStmt* stmt, BasicBlock* bb, bool fromFunc) {
         Value* condValue = translate_expr(If->exp, bb);
         BasicBlock *isT, *isF, *exit;
         if (If->hasElse) {
+            int No = ifNo++;
+            std::string bbname;
             isT = BasicBlock::Create(bb->getParent(), bb);
+            bbname = "IF_" + std::to_string(No) + "_TrueBB";
+            isT->setName(bbname);
             isF = BasicBlock::Create(bb->getParent(), bb);
+            bbname = "IF_" + std::to_string(No) + "_FalseBB";
+            isF->setName(bbname);
             exit = BasicBlock::Create(bb->getParent(), bb);
+            bbname = "IF_" + std::to_string(No) + "_ExitBB";
+            exit->setName(bbname);
+
             Value* branch = BranchInst::Create(isT, isF, condValue, bb);
             BasicBlock* isTret = translate_stmt(If->stmtIf, isT);            // return ?
             Value* tjmp = JumpInst::Create(exit, isTret);
@@ -384,8 +474,15 @@ BasicBlock* translate_stmt(TreeStmt* stmt, BasicBlock* bb, bool fromFunc) {
             return exit;
         }
         else {
+            std::string bbname;
+            int No = ifNo++;
             isT = BasicBlock::Create(bb->getParent(), bb);
+            bbname = "IF_" + std::to_string(No) + "_TrueBB";
+            isT->setName(bbname);
             exit = BasicBlock::Create(bb->getParent(), bb);
+            bbname = "IF_" + std::to_string(No) + "_ExitBB";
+            exit->setName(bbname);
+
             Value* branch = BranchInst::Create(isT, exit, condValue, bb);
             BasicBlock* isTret = translate_stmt(If->stmtIf, isT);
             Value* tjmp = JumpInst::Create(exit, isTret);
@@ -395,9 +492,17 @@ BasicBlock* translate_stmt(TreeStmt* stmt, BasicBlock* bb, bool fromFunc) {
     // OK while
     else if (auto* While = stmt->as<TreeWhileStmt*>()) {
         BasicBlock *entry, *body, *exit;
+        std::string bbname;
+        int No = whileNo++;
         entry = BasicBlock::Create(bb->getParent(), bb);
+        bbname = "While_" + std::to_string(No) + "_EntryBB";
+        entry->setName(bbname);
         body = BasicBlock::Create(bb->getParent(), bb);
+        bbname = "While_" + std::to_string(No) + "_BodyBB";
+        body->setName(bbname);
         exit = BasicBlock::Create(bb->getParent(), bb);
+        bbname = "While_" + std::to_string(No) + "_ExitBB";
+        exit->setName(bbname);
         Value* j2en = JumpInst::Create(entry, bb);
         Value* condValue = translate_expr(While->exp, entry);
         Value* branch = BranchInst::Create(body, exit, condValue, entry);
@@ -412,7 +517,7 @@ BasicBlock* translate_stmt(TreeStmt* stmt, BasicBlock* bb, bool fromFunc) {
         loopExit = nullptr;
         isIRinLoop--;
 
-        Value* j2exit = JumpInst::Create(exit, bodyExit);
+        Value* j2exit = JumpInst::Create(entry, bodyExit);
 
         return exit;
     }
@@ -422,7 +527,7 @@ BasicBlock* translate_stmt(TreeStmt* stmt, BasicBlock* bb, bool fromFunc) {
         if (!isIRinLoop) {
             throw("Break but not in loop\n");
         }
-        Value* jmp = JumpInst::Create(allLoops.end()->second, bb);
+        Value* jmp = JumpInst::Create(allLoops.back().second, bb);
         return bb;
     }
     // OK continue
@@ -435,7 +540,8 @@ BasicBlock* translate_stmt(TreeStmt* stmt, BasicBlock* bb, bool fromFunc) {
     }
     // OK return
     else if (auto* Ret = stmt->as<TreeReturnStmt*>()) {
-        BasicBlock* retBB = &bb->getParent()->end().operator*();
+        std::cout << "[debug]: now is in return" << std::endl;
+        BasicBlock* retBB = &bb->getParent()->back();
         bool isG = false;
         Value* ptr = findValue("return", isG);
         // return something
@@ -443,6 +549,7 @@ BasicBlock* translate_stmt(TreeStmt* stmt, BasicBlock* bb, bool fromFunc) {
             Value* retValue = translate_expr(Ret->expr, bb);
             Value* storeRet = StoreInst::Create(retValue, ptr, bb);
             Value* j2RetBB = JumpInst::Create(retBB, bb);
+            
         }
         // return nothing
         else {
@@ -450,7 +557,9 @@ BasicBlock* translate_stmt(TreeStmt* stmt, BasicBlock* bb, bool fromFunc) {
         }
         // normally, ret should be a bb's last inst, return nullptr
         // but if there's some insts after retInst, the func should return bb
-        return bb;
+        BasicBlock* afterRet = BasicBlock::Create(bb->getParent(), bb);
+        afterRet->setName("AfterRet_" + std::to_string(retNo++));
+        return afterRet;
     }
     // OK FuncDef
     else if (auto* fdef = stmt->as<TreeFuncDef*>()) {
@@ -476,13 +585,15 @@ BasicBlock* translate_stmt(TreeStmt* stmt, BasicBlock* bb, bool fromFunc) {
             int n = IDValueTable.size();
             IDValueTable[n-1] = IDValueTable[n-2];
         }
-
         for (unsigned int i = 0; i < Block->child->size(); ++i) {
             TreeStmt* tmp = Block->child->at(i);
             // if 
+            if (tmp == nullptr) {
+            }
             now = translate_stmt(tmp, now);
+            if (now == nullptr) {
+            }
         }
-
         deleteValueDomain();
         return now;
     }
@@ -509,13 +620,15 @@ Module* newModule() {
 Value* findValue(std::string ss, bool& isGlobal) {
     // 
     isGlobal = false;
-    int size = IDValueTable.size();
+    int size = IDValueTable.size() - 1;
+    std::cout << "[debug]: size is " << size << std::endl;
     for (int i = size; i >= 0; --i) {
         auto it = IDValueTable[i].find(ss);
         if (it != IDValueTable[i].end()) {
             if (i == 0) {
                 isGlobal = true;
             }
+            std::cout << "[debug]: return success" << std::endl;
             return it->second;
         }
     }
@@ -549,52 +662,72 @@ void addRuntimeFuncValue () {
     res = Type::getIntegerTy();
     params.clear();
     fty = FunctionType::get(res, params);
-    f = Function::Create(fty, false, "getint", CompMod);
+    f = Function::Create(fty, true, "getint", CompMod);
     FuncValueTable[0]["getint"] = f;
     // int getch()
-    f = Function::Create(fty, false, "getch", CompMod);
+    f = Function::Create(fty, true, "getch", CompMod);
     FuncValueTable[0]["getch"] = f;
     // int getarray(int a[])
     res = Type::getIntegerTy();
     params.clear();
     params.push_back(PointerType::get(Type::getIntegerTy()));
     fty = FunctionType::get(res, params);
-    f = Function::Create(fty, false, "getarray", CompMod);
+    f = Function::Create(fty, true, "getarray", CompMod);
     FuncValueTable[0]["getarray"] = f;
     // void putint(int a)
     res = Type::getUnitTy();
     params.clear();
     params.push_back(Type::getIntegerTy());
     fty = FunctionType::get(res, params);
-    f = Function::Create(fty, false, "putint", CompMod);
+    f = Function::Create(fty, true, "putint", CompMod);
     FuncValueTable[0]["putint"] = f;
     // void putch(char ch)
-    f = Function::Create(fty, false, "putch", CompMod);
+    f = Function::Create(fty, true, "putch", CompMod);
     FuncValueTable[0]["putint"] = f;
     // void putarray(int, int [])
     params.push_back(PointerType::get(Type::getIntegerTy()));
     fty = FunctionType::get(res, params);
-    f = Function::Create(fty, false, "putarray", CompMod);
+    f = Function::Create(fty, true, "putarray", CompMod);
     FuncValueTable[0]["putarray"] = f;
     // void starttime()
     res = Type::getUnitTy();
     params.clear();
     fty = FunctionType::get(res, params);
-    f = Function::Create(fty, false, "starttime", CompMod);
+    f = Function::Create(fty, true, "starttime", CompMod);
     FuncValueTable[0]["starttime"] = f;
     // void stoptime()
-    f = Function::Create(fty, false, "stoptime", CompMod);
+    f = Function::Create(fty, true, "stoptime", CompMod);
     FuncValueTable[0]["stoptime"] = f;
 }
 
 void addToNewDomain (Value* ret, TreeFuncDef* fdef, Function* ff) {
     int index = IDValueTable.size() - 1;
-    if (!ret) IDValueTable[index]["return"] = ret;
+    if (ret != nullptr) {
+        IDValueTable[index]["return"] = ret;
+    }
+    // change fdef's name
+    if (fdef->params != nullptr) {
+        for (int i = 0; i < fdef->params->child->size(); ++i) {
+            fdef->params->child->at(i)->ident->IdentName = transName(fdef->params->child->at(i)->ident->IdentName);
+        }
+    }
     // symbol table use lab2's code
     addFuncParamsToTable(fdef);
     // from ff get the arguments value
+    BasicBlock* fentryBB = &ff->getEntryBlock();
     for (int i = 0; i < ff->arg_size(); ++i) {
-        IDValueTable[index][fdef->params->child->at(i)->ident->IdentName] = ff->getArg(i);
+        // if is a pointer
+        if (ff->getArg(i)->getType()->isPointerTy()) {
+            IDValueTable[index][fdef->params->child->at(i)->ident->IdentName] = ff->getArg(i);
+        }
+        // else
+        else {
+            // alloca and store
+            Value* allo = AllocaInst::Create(Type::getIntegerTy(), 1, fentryBB);
+            allo->setName(fdef->params->child->at(i)->ident->IdentName);
+            Value* store = StoreInst::Create(ff->getArg(i), allo, fentryBB);
+            IDValueTable[index][fdef->params->child->at(i)->ident->IdentName] = allo;
+        }
     }
     // add func to funcTable
     auto it = FuncValueTable[0].find(fdef->ident->IdentName);
@@ -606,9 +739,45 @@ void addToNewDomain (Value* ret, TreeFuncDef* fdef, Function* ff) {
 // TODO
 void doGlobalVarBinding(std::vector<TreeVarDef*>& defs, BasicBlock* bb) {
     // TODO
+    // get address, and store is OK
+    for (int i = 0; i < defs.size(); ++i) {
+        TreeVarDef* def = defs[i];
+        Value *l, *r;
+        l = IDValueTable[0][def->ident->IdentName];
+        if (def->initVal == nullptr) continue;
+        r = translate_expr(def->initVal, bb);
+        Value* store = StoreInst::Create(r, l, bb);
+    }
 }
 
-void translate_root (Node* node) {
+std::string transName (std::string name) {
+    return name + "." + std::to_string(IDnameTimes[name]++);
+}
+
+void clearNameNumTable() {
+    IDnameTimes.clear();
+}
+
+std::string getTranstedName (std::string name) {
+    // find the name with the same prefix of name from the table
+    int index = IDValueTable.size() - 1;
+    for (int i = index; i >= 0; --i) {
+        for (auto it = IDValueTable[i].begin(); it != IDValueTable[i].end(); ++it) {
+            if (name == getPrefix(it->first)) {
+                return it->first;
+            }
+        }
+    }
+    return name;
+}
+
+std::string getPrefix (std::string name) {
+    std::size_t pos = name.find('.');
+    std::string prefix = name.substr(0, pos);
+    return prefix;
+}
+
+Module* translate_root (Node* node) {
     // translate the root to the ir
     // new domain, and 
     auto* cmp = node->as<CompUnit*>();
@@ -624,5 +793,13 @@ void translate_root (Node* node) {
     for (unsigned int i = 0; i < cmp->child->size(); ++i) {
         translate_stmt(cmp->child->at(i), nullptr);
     }
+    // from CompMod get the main
+    Function* mm = CompMod->getFunction("main");
+    BasicBlock* mmentry = &mm->front();
+    BasicBlock* gloVarBB = BasicBlock::Create(mm, mmentry);
+    gloVarBB->setName("GlobalBind");
+    doGlobalVarBinding(globalVarBinding, gloVarBB);
+    Value* j2e = JumpInst::Create(mmentry, gloVarBB);
+    return CompMod;
 }
 

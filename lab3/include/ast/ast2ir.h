@@ -46,5 +46,13 @@ void addToNewDomain (Value* ret, TreeFuncDef* fdef, Function* ff);
 
 void doGlobalVarBinding(std::vector<TreeVarDef*>& defs, BasicBlock* bb);
 
-void translate_root (Node* node);
+std::string transName (std::string name);
+
+std::string getTranstedName (std::string name);
+
+std::string getPrefix (std::string name);
+
+void clearNameNumTable();
+
+Module* translate_root (Node* node);
 
