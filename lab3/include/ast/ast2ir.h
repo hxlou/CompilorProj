@@ -56,3 +56,4 @@ void clearNameNumTable();
 
 Module* translate_root (Node* node);
 
+BasicBlock* shortPathForIf (TreeIfStmt* ifStmt, TreeExpr* expr, BasicBlock* bb, BasicBlock* des, Value* ptr, int No);

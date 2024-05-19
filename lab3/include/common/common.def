@@ -41,7 +41,7 @@ OpcodeDefine(OP_Gt,     "gt")       // >
 OpcodeDefine(OP_Le,     "le")       // <=
 OpcodeDefine(OP_Ge,     "ge")       // >=
 OpcodeDefine(OP_Eq,     "eq")       // ==
-OpcodeDefine(OP_Ne,     "ne")       // !+
+OpcodeDefine(OP_Ne,     "ne")       // !=
 OpcodeDefine(OP_Land,   "and")      // &&
 OpcodeDefine(OP_Lor,    "or")       // ||
 OpcodeDefine(OP_Lxor,   "xor")      // ^

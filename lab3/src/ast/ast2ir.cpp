@@ -5,9 +5,22 @@
 #include <iostream>
 #include <cassert>
 
+/**
+ * need to do
+ * logical not and bits not
+*/
+
 int ifNo = 1;
 int whileNo = 1;
 int retNo = 1;
+int shortAndNo = 1;
+int shortOrNo = 1;
+int shortBinNo = 1;
+int shortLvalNo = 1;
+int shortFuncRNo = 1;
+int shortUopNo = 1;
+int tmpNo = 1;
+
 
 int isIRinLoop = 0;
 BasicBlock* loopExit = nullptr;
@@ -433,41 +446,79 @@ BasicBlock* translate_stmt(TreeStmt* stmt, BasicBlock* bb, bool fromFunc) {
     // if while break return block continue
     // OK if
     if (auto* If = stmt->as<TreeIfStmt*>()) { 
-        Value* condValue = translate_expr(If->exp, bb);
-        BasicBlock *isT, *isF, *exit;
+        BasicBlock *isT, *isF, *exit, *entry;
+
         if (If->hasElse) {
             int No = ifNo++;
             std::string bbname;
+            
+            entry = BasicBlock::Create(bb->getParent(), bb);
+            bbname = "IF_" + std::to_string(No) + "_EntryBB";
+            entry->setName(bbname);
+            
             isT = BasicBlock::Create(bb->getParent(), bb);
             bbname = "IF_" + std::to_string(No) + "_TrueBB";
             isT->setName(bbname);
+
             isF = BasicBlock::Create(bb->getParent(), bb);
             bbname = "IF_" + std::to_string(No) + "_FalseBB";
             isF->setName(bbname);
+            
             exit = BasicBlock::Create(bb->getParent(), bb);
             bbname = "IF_" + std::to_string(No) + "_ExitBB";
             exit->setName(bbname);
 
-            Value* branch = BranchInst::Create(isT, isF, condValue, bb);
-            BasicBlock* isTret = translate_stmt(If->stmtIf, isT);            // return ?
-            Value* tjmp = JumpInst::Create(exit, isTret);
-            BasicBlock* isFret = translate_stmt(If->stmtElse, isF);
-            Value* fjmp = JumpInst::Create(exit, isFret);
+            Value* tmp = AllocaInst::Create(Type::getIntegerTy(), 1, &bb->getParent()->front());
+            tmp->setName("tmp" + std::to_string(tmpNo++) + "_IfCondValue");
+            
+            // bool isG;
+            // Value* tt = StoreInst::Create(ConstantInt::Create(114514), findValue("return", isG), bb);
+
+            shortPathForIf(If, If->exp, bb, entry, tmp, No);
+
+            // entry
+            Value* load = LoadInst::Create(tmp, entry);
+            Value* branch = BranchInst::Create(isT, isF, load, entry);
+
+            // isT
+            BasicBlock* isTRetBB = translate_stmt(If->stmtIf, isT);
+            Value* isTjump = JumpInst::Create(exit, isTRetBB);
+
+            // isF
+            BasicBlock* isFRetBB = translate_stmt(If->stmtElse, isF);
+            Value* isFjump = JumpInst::Create(exit, isFRetBB);
+
             return exit;
         }
         else {
-            std::string bbname;
             int No = ifNo++;
+            std::string bbname;
+            
+            entry = BasicBlock::Create(bb->getParent(), bb);
+            bbname = "IF_" + std::to_string(No) + "_EntryBB";
+            entry->setName(bbname);
+            
             isT = BasicBlock::Create(bb->getParent(), bb);
             bbname = "IF_" + std::to_string(No) + "_TrueBB";
             isT->setName(bbname);
+            
             exit = BasicBlock::Create(bb->getParent(), bb);
             bbname = "IF_" + std::to_string(No) + "_ExitBB";
             exit->setName(bbname);
 
-            Value* branch = BranchInst::Create(isT, exit, condValue, bb);
-            BasicBlock* isTret = translate_stmt(If->stmtIf, isT);
-            Value* tjmp = JumpInst::Create(exit, isTret);
+            Value* tmp = AllocaInst::Create(Type::getIntegerTy(), 1, &bb->getParent()->front());
+            tmp->setName("tmp" + std::to_string(tmpNo++) + "_IfCondValue");
+
+            shortPathForIf(If, If->exp, bb, entry, tmp, No);
+
+            // entry
+            Value* load = LoadInst::Create(tmp, entry);
+            Value* branch = BranchInst::Create(isT, exit, load, entry);
+
+            // isT
+            BasicBlock* isTRetBB = translate_stmt(If->stmtIf, isT);
+            Value* isTjump = JumpInst::Create(exit, isTRetBB);
+
             return exit;
         }
     }
@@ -785,5 +836,347 @@ Module* translate_root (Node* node) {
     deleteValueDomain();
     deleteDomain();
     return CompMod;
+}
+
+
+/**
+ * @param: ifStmt: the root if statement
+ * @param: expr: now translating expr
+ * @param: bb: now is in bb
+ * @param: des: need to branch or jump to
+ * @param: the return value should store to ptr
+ * 
+ * @return: the bb exit maybe unused
+*/ 
+BasicBlock* shortPathForIf (TreeIfStmt* ifStmt, TreeExpr* expr, BasicBlock* bb, BasicBlock* des, Value* ptr, int No) {
+    // Binary
+    // ||
+    // &&
+    // others
+    if (auto* bop = expr->as<TreeBinaryExpr*>()) {
+        // ||
+        if (bop->op == OpType::OP_Lor) {
+            // bb
+            // orInnerBB
+            // orRightBB
+            // orFinalBB
+            BasicBlock* OrInnerBB = BasicBlock::Create(bb->getParent(), bb);
+            BasicBlock* OrRightBB = BasicBlock::Create(bb->getParent(), bb);
+            BasicBlock* OrFinalBB = BasicBlock::Create(bb->getParent(), bb);
+            OrInnerBB->setName("If_" + std::to_string(No) + "_Or_" + std::to_string(shortOrNo) + "_InnerBB");
+            OrRightBB->setName("If_" + std::to_string(No) + "_Or_" + std::to_string(shortOrNo) + "_RightBB");
+            OrFinalBB->setName("If_" + std::to_string(No) + "_Or_" + std::to_string(shortOrNo++) + "_FinalBB");
+            // first translate left in bb
+            std::cout << "[debug]: left" << std::endl;
+            Value* leftRetPtr = AllocaInst::Create(Type::getIntegerTy(), 1, &bb->getParent()->front());
+            leftRetPtr->setName("tmp" + std::to_string(tmpNo++));
+            BasicBlock* leftRetBB = shortPathForIf(ifStmt, bop->lhs, bb, OrInnerBB, leftRetPtr, No);    // may unused
+
+            // in OrInnerBB, 
+            Value* loadLeft = LoadInst::Create(leftRetPtr, OrInnerBB);
+            Value* storeLeft = StoreInst::Create(loadLeft, ptr, OrInnerBB);                         // if now is OK, return the left value and is OK
+            Value* leftBranch = BranchInst::Create(des, OrRightBB, loadLeft, OrInnerBB);
+
+            // in OrRightBB
+            Value* rightRetPtr = AllocaInst::Create(Type::getIntegerTy(), 1, &bb->getParent()->front());
+            rightRetPtr->setName("tmp" + std::to_string(tmpNo++));
+            std::cout << "[debug]: right" << std::endl;
+            BasicBlock* rightRetBB = shortPathForIf(ifStmt, bop->rhs, OrRightBB, OrFinalBB, rightRetPtr, No);   // may ununed
+
+            // in OrFinalBB
+            std::cout << "[debug]: final" << std::endl;
+            Value* loadRight = LoadInst::Create(rightRetPtr, OrFinalBB);
+            Value* storeRight = StoreInst::Create(loadRight, ptr, OrFinalBB);
+            Value* jump = JumpInst::Create(des, OrFinalBB);
+        }
+        // &&
+        else if (bop->op == OpType::OP_Land) {
+            // bb
+            // AndInnerBB
+            // AndRightBB
+            // AndFinalBB
+            BasicBlock* AndInnerBB = BasicBlock::Create(bb->getParent(), bb);
+            BasicBlock* AndRightBB = BasicBlock::Create(bb->getParent(), bb);
+            BasicBlock* AndFinalBB = BasicBlock::Create(bb->getParent(), bb);
+            AndInnerBB->setName("If_" + std::to_string(No) + "_And_" + std::to_string(shortAndNo) + "_InnerBB");
+            AndRightBB->setName("If_" + std::to_string(No) + "_And_" + std::to_string(shortAndNo) + "_RightBB");
+            AndFinalBB->setName("If_" + std::to_string(No) + "_And_" + std::to_string(shortAndNo++) + "_FinalBB");
+            // first translate left in bb
+            Value* leftRetPtr = AllocaInst::Create(Type::getIntegerTy(), 1, &bb->getParent()->front());
+            leftRetPtr->setName("tmp" + std::to_string(tmpNo++));
+            BasicBlock* leftRetBB = shortPathForIf(ifStmt, bop->lhs, bb, AndInnerBB, leftRetPtr, No);
+
+            // in AndInnerBB
+            Value* loadLeft = LoadInst::Create(leftRetPtr, AndInnerBB);
+            Value* storeLeft = StoreInst::Create(loadLeft, ptr, AndInnerBB);
+            Value* leftBranch = BranchInst::Create(AndRightBB, des, loadLeft, AndInnerBB);
+
+            // in AndRightBB
+            Value* rightRetPtr = AllocaInst::Create(Type::getIntegerTy(), 1, &bb->getParent()->front());
+            rightRetPtr->setName("tmp" + std::to_string(tmpNo++));
+            BasicBlock* rightRetBB = shortPathForIf(ifStmt, bop->rhs, AndRightBB, AndInnerBB, rightRetPtr, No);
+
+            // in AndFinalBB
+            Value* loadRight = LoadInst::Create(rightRetPtr, AndFinalBB);
+            Value* storeRight = StoreInst::Create(loadRight, ptr, AndFinalBB);
+            Value* jump = JumpInst::Create(des, AndFinalBB);
+        }
+        // < <= > >= == !=      (+ - * / % xor)
+        else {
+            // can't short path, just like && and ||
+            BasicBlock* RelInnerBB = BasicBlock::Create(bb->getParent(), bb);
+            BasicBlock* RelRightBB = BasicBlock::Create(bb->getParent(), bb);
+            BasicBlock* RelFinalBB = BasicBlock::Create(bb->getParent(), bb);
+            RelInnerBB->setName("If_" + std::to_string(No) + "_Bina_" + std::to_string(shortBinNo) + "_InnerBB");
+            RelRightBB->setName("If_" + std::to_string(No) + "_Bina_" + std::to_string(shortBinNo) + "_RightBB");
+            RelFinalBB->setName("If_" + std::to_string(No) + "_Bina_" + std::to_string(shortBinNo++) + "_FinalBB");
+            // get left value in bb
+            Value* leftRetPtr = AllocaInst::Create(Type::getIntegerTy(), 1, &bb->getParent()->front());
+            leftRetPtr->setName("tmp" + std::to_string(tmpNo++));
+            BasicBlock* leftRetBB = shortPathForIf(ifStmt, bop->lhs, bb, RelInnerBB, leftRetPtr, No);
+
+            // RelInnerBB
+            Value* jumpLeft = JumpInst::Create(RelRightBB, RelInnerBB);
+
+            // RelRightBB
+            Value* rightRetPtr = AllocaInst::Create(Type::getIntegerTy(), 1, &bb->getParent()->front());
+            rightRetPtr->setName("tmp" + std::to_string(tmpNo++));
+            BasicBlock* rightRetBB = shortPathForIf(ifStmt, bop->rhs, RelRightBB, RelFinalBB, rightRetPtr, No);
+
+            // RelFinalBB
+            Value* loadLeft = LoadInst::Create(leftRetPtr, RelFinalBB);
+            Value* loadRight = LoadInst::Create(rightRetPtr, RelFinalBB);
+            Value* finalRes = nullptr;
+            switch (bop->op)
+            {
+                case OpType::OP_Lt:
+                    finalRes = BinaryInst::CreateLt(loadLeft, loadRight, Type::getIntegerTy(), RelFinalBB);
+                    break;
+                case OpType::OP_Le:
+                    finalRes = BinaryInst::CreateLe(loadLeft, loadRight, Type::getIntegerTy(), RelFinalBB);
+                    break;
+                case OpType::OP_Gt:
+                    finalRes = BinaryInst::CreateGt(loadLeft, loadRight, Type::getIntegerTy(), RelFinalBB);
+                    break;
+                case OpType::OP_Ge:
+                    finalRes = BinaryInst::CreateGe(loadLeft, loadRight, Type::getIntegerTy(), RelFinalBB);
+                    break;
+                case OpType::OP_Eq:
+                    finalRes = BinaryInst::CreateEq(loadLeft, loadRight, Type::getIntegerTy(), RelFinalBB);
+                    break;
+                case OpType::OP_Ne:
+                    finalRes = BinaryInst::CreateNe(loadLeft, loadRight, Type::getIntegerTy(), RelFinalBB);
+                    break;
+                case OpType::OP_Add:
+                    finalRes = BinaryInst::CreateAdd(loadLeft, loadRight, Type::getIntegerTy(), RelFinalBB);
+                    break;
+                case OpType::OP_Sub:
+                    finalRes = BinaryInst::CreateSub(loadLeft, loadRight, Type::getIntegerTy(), RelFinalBB);
+                    break;
+                case OpType::OP_Mul:
+                    finalRes = BinaryInst::CreateMul(loadLeft, loadRight, Type::getIntegerTy(), RelFinalBB);
+                    break;
+                case OpType::OP_Div:
+                    finalRes = BinaryInst::CreateDiv(loadLeft, loadRight, Type::getIntegerTy(), RelFinalBB);
+                    break;
+                case OpType::OP_Mod:
+                    finalRes = BinaryInst::CreateMod(loadLeft, loadRight, Type::getIntegerTy(), RelFinalBB);
+                    break;
+                case OpType::OP_Lxor:
+                    finalRes = BinaryInst::CreateXor(loadLeft, loadRight, Type::getIntegerTy(), RelFinalBB);
+                    break;
+                default:
+                    throw("Error\n");
+                    break;
+            }
+            Value* store = StoreInst::Create(finalRes, ptr, RelFinalBB);
+            Value* jumpRight = JumpInst::Create(des, RelFinalBB);
+        }
+    }
+    // UnaryOP
+    // -a  !a foo(a)
+    else if (auto* uop = expr->as<TreeUnaryExpr*>()) {
+        // func call
+        if (uop->op == OpType::OP_Func) {
+            std::cout << "[func]: into" << std::endl;
+            Function* ff = CompMod->getFunction(uop->id->IdentName);
+            std::vector<Value*> args {};
+            std::vector<Value*> ptrs {};
+            BasicBlock* now = bb;
+            int funcRPNo = shortFuncRNo++;
+            
+            if (uop->operand != nullptr) {
+                TreeFuncRParams* rparams = uop->operand->as<TreeFuncRParams*>();
+                for (int i = 0; i < rparams->child->size(); ++i) {
+                    std::cout << "[func]: get rParam" << std::endl;
+                    BasicBlock* rparamFinal = BasicBlock::Create(bb->getParent(), bb);
+                    rparamFinal->setName("If_" + std::to_string(No) + "_FuncRPa_" + std::to_string(funcRPNo) + "_" + std::to_string(i) + "_FinalBB");
+                    
+                    // Value* tmp = AllocaInst::Create(Type::getIntegerTy(), 1, &bb->getParent()->front());
+                    Value* tmp = nullptr;
+                    if (ff->getArg(i)->getType() == Type::getIntegerTy()) {
+                        tmp = AllocaInst::Create(Type::getIntegerTy(), 1, &bb->getParent()->front());
+                    }
+                    else {
+                        tmp = AllocaInst::Create(PointerType::get(Type::getIntegerTy()), 1, &bb->getParent()->front());
+                    }
+
+                    tmp->setName("tmp" + std::to_string(tmpNo++));
+                    ptrs.push_back(tmp);
+
+                    shortPathForIf(ifStmt, rparams->child->at(i), now, rparamFinal, tmp, No);
+                    now = rparamFinal;
+                }
+
+                for (int i = 0; i < rparams->child->size(); ++i) {
+                    std::cout << "[func]: get Values" << std::endl;
+                    Value* load = LoadInst::Create(ptrs[i], now);
+                    args.push_back(load);
+                }
+            }
+
+            // call func in BB now
+            std::cout << "[func]: call" << std::endl;
+            Value* call = CallInst::Create(ff, args, now);
+            Value* store = StoreInst::Create(call, ptr, now);
+            Value* jump = JumpInst::Create(des, now);
+        }
+        // -a !a
+        else {
+            BasicBlock* uopFinal = BasicBlock::Create(bb->getParent(), bb);
+            uopFinal->setName("If_" + std::to_string(No) + "_Uop_" + std::to_string(shortUopNo++) + "_FinalBB");
+
+            Value* tmp = AllocaInst::Create(Type::getIntegerTy(), 1, &bb->getParent()->front());
+            tmp->setName("tmp" + std::to_string(tmpNo++));
+
+            shortPathForIf(ifStmt, uop->operand, bb, uopFinal, tmp, No);
+
+            // 
+            Value* load = LoadInst::Create(tmp, uopFinal);
+            Value* res = nullptr;
+            if (uop->op == OpType::OP_Lnot) {
+                res = BinaryInst::CreateEq(ConstantInt::Create(0), load, Type::getIntegerTy(), uopFinal);
+            }
+            else {      // -
+                res = BinaryInst::CreateSub(ConstantInt::Create(0), load, Type::getIntegerTy(), uopFinal);
+            }
+            Value* store = StoreInst::Create(res, ptr, uopFinal);
+            Value* jump = JumpInst::Create(des, uopFinal);
+        }
+    }
+    // Lval
+    // a  a[0][0]
+    else if (auto* lval = expr->as<TreeLVal*>()) {
+        lval->ident->IdentName = getTranstedName(lval->ident->IdentName);
+        // array
+        bool isG = false;
+        IdentTypeNode* lvalIDType = checkIdDefine(lval->ident);
+        Value* lvalValue = findValue(lval->ident->IdentName, isG);
+        // Pointer
+        if ((lvalIDType->dimension != 0) && ((lval->exprs == nullptr) || (lval->exprs != nullptr && lval->exprs->size() < lvalIDType->dimension))) {
+            std::cout << "[lval]: pointer" << std::endl;
+            std::vector<Value*> values {};
+            std::vector<std::optional<std::size_t>> BoundList;
+
+            // fill Boundlist
+            for (int i = 0; i < lvalIDType->dimension; ++i) {
+                if (lvalIDType->domainSize[i] == 0 && i == 0) {
+                    BoundList.push_back(std::nullopt);
+                }
+                else {
+                    BoundList.push_back(lvalIDType->domainSize[i]);
+                }
+            }
+
+            // fill values
+            BasicBlock* now = bb;
+            int lvalNo = shortLvalNo++;
+            std::vector<Value*> ptrs {};
+            for (int i = 0; i < lvalIDType->dimension; ++i) {
+                if (i < lval->exprs->size()) {
+                    BasicBlock* valueFinal = BasicBlock::Create(now->getParent(), now);
+                    valueFinal->setName("If_" + std::to_string(No) + "_Lval_" + std::to_string(lvalNo) + "_" + std::to_string(i) +"_FinalBB");
+                    Value* tmp = AllocaInst::Create(Type::getIntegerTy(), 1, &bb->getParent()->front());
+                    tmp->setName("tmp" + std::to_string(tmpNo++));
+                    ptrs.push_back(tmp);
+
+                    // 
+                    shortPathForIf(ifStmt, lval->exprs->at(i), now, valueFinal, tmp, No);
+                    now = valueFinal;
+                }
+            }
+            for (int i = 0; i < lvalIDType->dimension; ++i) {
+                if (i < lval->exprs->size()) {
+                    Value* load = LoadInst::Create(ptrs[i], now);
+                    values.push_back(load);
+                }
+                else {
+                    values.push_back(ConstantInt::Create(0));
+                }
+            }
+
+            Value* offset = OffsetInst::Create(Type::getIntegerTy(), lvalValue, values, BoundList, now);
+            Value* store = StoreInst::Create(offset, ptr, now);
+
+            // jump
+            Value* jump = JumpInst::Create(des, now);
+        }
+        // array, return a num
+        else if (lval->hasExpress) {
+            std::vector<Value*> values {};
+            std::vector<std::optional<std::size_t>> BoundList;
+
+            // fill Boundlist
+            for (int i = 0; i < lvalIDType->dimension; ++i) {
+                if (lvalIDType->domainSize[i] == 0 && i == 0) {
+                    BoundList.push_back(std::nullopt);
+                }
+                else {
+                    BoundList.push_back(lvalIDType->domainSize[i]);
+                }
+            }
+
+            // fill values
+            BasicBlock* now = bb;
+            int lvalNo = shortLvalNo++;
+            std::vector<Value*> ptrs {};
+            for (int i = 0; i < lvalIDType->dimension; ++i) {
+                BasicBlock* valueFinal = BasicBlock::Create(now->getParent(), now);
+                valueFinal->setName("If_" + std::to_string(No) + "_Lval_" + std::to_string(lvalNo) + "_" + std::to_string(i) +"_FinalBB");
+                Value* tmp = AllocaInst::Create(Type::getIntegerTy(), 1, &bb->getParent()->front());
+                tmp->setName("tmp" + std::to_string(tmpNo++));
+                ptrs.push_back(tmp);
+
+                // trans the child expr
+                shortPathForIf(ifStmt, lval->exprs->at(i), now, valueFinal, tmp, No);
+                now = valueFinal;
+            }
+            for (int i = 0; i < lvalIDType->dimension; ++i) {
+                Value* load = LoadInst::Create(ptrs[i], now);
+                values.push_back(load);
+            }
+
+            Value* offset = OffsetInst::Create(Type::getIntegerTy(), lvalValue, values, BoundList, now);
+            Value* load = LoadInst::Create(offset, now);
+            Value* store = StoreInst::Create(load, ptr, now);
+
+            // jump
+            Value* jump = JumpInst::Create(des, now);
+
+        }
+        // just like (i), just a number
+        else {
+            Value* load = LoadInst::Create(lvalValue, bb);
+            Value* store = StoreInst::Create(load, ptr, bb);
+            Value* jump = JumpInst::Create(des, bb);
+        }
+    }
+    // const int
+    else if (auto* cint = expr->as<TreeIntegerLiteral*>()) {
+        std::cout << "[debug]: cint" << std::endl;
+        Value* constInt = ConstantInt::Create(cint->value);
+        Value* store = StoreInst::Create(constInt, ptr, bb);
+        Value* jump = JumpInst::Create(des, bb);
+    }
 }
 
