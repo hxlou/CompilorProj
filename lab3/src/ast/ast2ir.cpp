@@ -10,6 +10,8 @@
  * logical not and bits not
 */
 
+int continueNo = 1;
+int breakNo = 1;
 int ifNo = 1;
 int whileNo = 1;
 int retNo = 1;
@@ -560,16 +562,25 @@ BasicBlock* translate_stmt(TreeStmt* stmt, BasicBlock* bb, bool fromFunc) {
         if (!isIRinLoop) {
             throw("Break but not in loop\n");
         }
+        
+        BasicBlock* afterBreak = BasicBlock::Create(bb->getParent(), bb);
+        afterBreak->setName("After_Break_" + std::to_string(breakNo++));
+
         Value* jmp = JumpInst::Create(allLoops.back().second, bb);
-        return bb;
+        return afterBreak;
     }
     // OK continue
     else if (auto* Continue = stmt->as<TreeContinueStmt*>()) {
         if (!isIRinLoop) {
             throw("Continue but not in loop\n");
         }
-        Value* jmp = JumpInst::Create(allLoops.end()->first, bb);
-        return bb;
+        
+        Value* jmp = JumpInst::Create(allLoops.back().first, bb);
+
+        BasicBlock* afterConti = BasicBlock::Create(bb->getParent(), bb);
+        afterConti->setName("After_Continue_" + std::to_string(continueNo++));
+        
+        return afterConti;
     }
     // OK return
     else if (auto* Ret = stmt->as<TreeReturnStmt*>()) {
@@ -867,7 +878,6 @@ BasicBlock* shortPathForIf (TreeIfStmt* ifStmt, TreeExpr* expr, BasicBlock* bb, 
             OrRightBB->setName("If_" + std::to_string(No) + "_Or_" + std::to_string(shortOrNo) + "_RightBB");
             OrFinalBB->setName("If_" + std::to_string(No) + "_Or_" + std::to_string(shortOrNo++) + "_FinalBB");
             // first translate left in bb
-            std::cout << "[debug]: left" << std::endl;
             Value* leftRetPtr = AllocaInst::Create(Type::getIntegerTy(), 1, &bb->getParent()->front());
             leftRetPtr->setName("tmp" + std::to_string(tmpNo++));
             BasicBlock* leftRetBB = shortPathForIf(ifStmt, bop->lhs, bb, OrInnerBB, leftRetPtr, No);    // may unused
@@ -880,11 +890,9 @@ BasicBlock* shortPathForIf (TreeIfStmt* ifStmt, TreeExpr* expr, BasicBlock* bb, 
             // in OrRightBB
             Value* rightRetPtr = AllocaInst::Create(Type::getIntegerTy(), 1, &bb->getParent()->front());
             rightRetPtr->setName("tmp" + std::to_string(tmpNo++));
-            std::cout << "[debug]: right" << std::endl;
             BasicBlock* rightRetBB = shortPathForIf(ifStmt, bop->rhs, OrRightBB, OrFinalBB, rightRetPtr, No);   // may ununed
 
             // in OrFinalBB
-            std::cout << "[debug]: final" << std::endl;
             Value* loadRight = LoadInst::Create(rightRetPtr, OrFinalBB);
             Value* storeRight = StoreInst::Create(loadRight, ptr, OrFinalBB);
             Value* jump = JumpInst::Create(des, OrFinalBB);
@@ -998,7 +1006,6 @@ BasicBlock* shortPathForIf (TreeIfStmt* ifStmt, TreeExpr* expr, BasicBlock* bb, 
     else if (auto* uop = expr->as<TreeUnaryExpr*>()) {
         // func call
         if (uop->op == OpType::OP_Func) {
-            std::cout << "[func]: into" << std::endl;
             Function* ff = CompMod->getFunction(uop->id->IdentName);
             std::vector<Value*> args {};
             std::vector<Value*> ptrs {};
@@ -1008,7 +1015,6 @@ BasicBlock* shortPathForIf (TreeIfStmt* ifStmt, TreeExpr* expr, BasicBlock* bb, 
             if (uop->operand != nullptr) {
                 TreeFuncRParams* rparams = uop->operand->as<TreeFuncRParams*>();
                 for (int i = 0; i < rparams->child->size(); ++i) {
-                    std::cout << "[func]: get rParam" << std::endl;
                     BasicBlock* rparamFinal = BasicBlock::Create(bb->getParent(), bb);
                     rparamFinal->setName("If_" + std::to_string(No) + "_FuncRPa_" + std::to_string(funcRPNo) + "_" + std::to_string(i) + "_FinalBB");
                     
@@ -1029,14 +1035,12 @@ BasicBlock* shortPathForIf (TreeIfStmt* ifStmt, TreeExpr* expr, BasicBlock* bb, 
                 }
 
                 for (int i = 0; i < rparams->child->size(); ++i) {
-                    std::cout << "[func]: get Values" << std::endl;
                     Value* load = LoadInst::Create(ptrs[i], now);
                     args.push_back(load);
                 }
             }
 
             // call func in BB now
-            std::cout << "[func]: call" << std::endl;
             Value* call = CallInst::Create(ff, args, now);
             Value* store = StoreInst::Create(call, ptr, now);
             Value* jump = JumpInst::Create(des, now);
@@ -1074,7 +1078,6 @@ BasicBlock* shortPathForIf (TreeIfStmt* ifStmt, TreeExpr* expr, BasicBlock* bb, 
         Value* lvalValue = findValue(lval->ident->IdentName, isG);
         // Pointer
         if ((lvalIDType->dimension != 0) && ((lval->exprs == nullptr) || (lval->exprs != nullptr && lval->exprs->size() < lvalIDType->dimension))) {
-            std::cout << "[lval]: pointer" << std::endl;
             std::vector<Value*> values {};
             std::vector<std::optional<std::size_t>> BoundList;
 
@@ -1173,7 +1176,6 @@ BasicBlock* shortPathForIf (TreeIfStmt* ifStmt, TreeExpr* expr, BasicBlock* bb, 
     }
     // const int
     else if (auto* cint = expr->as<TreeIntegerLiteral*>()) {
-        std::cout << "[debug]: cint" << std::endl;
         Value* constInt = ConstantInt::Create(cint->value);
         Value* store = StoreInst::Create(constInt, ptr, bb);
         Value* jump = JumpInst::Create(des, bb);
